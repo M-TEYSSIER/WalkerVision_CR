@@ -193,68 +193,134 @@ De plus, un dimensionnement de camera est à réaliser.
 Avant de traiter une image, qu'est ce qu'une image? Une image est une matrice de valeurs. Les valeurs diffèrent de la propriété de l'image. Lorsque je vais prendre une image elle aura des valeurs qui définit les couleurs sur un espace de couleur BGR (Blue - Green - Red).
 
         \subsection{Ouvrir et afficher une image}
-                Une image peut être enregistrer sur un disque sous format .jpg, .png... Dans ce cas là, une fonction nous permettra de charger l'image. Pour cela nous utiliserons "imread". Cela dit, via une webcam nous pouvons prendre une photo et la charger. Pour cela, nous utiliserons la fonction "VideoCapture". Deux choix sont possible: utiliser une image déjà créer ou prendre une photo.
+                Une image peut être enregistrer sur un disque sous format .jpg, .png... Dans ce cas là, une fonction nous permettra de charger l'image. Pour cela nous utiliserons "imread()". Cela dit, via une webcam nous pouvons prendre une photo et la charger. Pour cela, nous utiliserons la fonction "VideoCapture". Deux choix sont possible: utiliser une image déjà créer ou prendre une photo.
 
 
                 \subsubsection{"imread"}
-                Le fonction \textit{imread} va nous servir pour traiter dans un premier temps une image enregistré sur le disque.
+                Le fonction \textit{imread()} va nous servir pour traiter dans un premier temps une image enregistré sur le disque.
                 L'image en question est Lena ou Lenna.
                 Cette photo est un standart dans le test d'image pour deux raison selon David C. Munson, éditeur en chef lors des discussions de l'IEEE sur le traitement d'image de janvier 1996: 
-                "Tout d'abord, cette image contient un mélange intéressant de détails, de régions uniformes, et de textures, ce qui permet de bien tester les différents algorithmes de traitement d'image. C'est une bonne image de test ! Ensuite, « Lenna » est l'image d'une femme attirante. Ce n'est pas une surprise que la communauté de la recherche dans le traitement d'image (principalement masculine) gravite autour d'une image qu'elle trouve attirante." \\
+                "Tout d'abord, cette image contient un mélange intéressant de détails, de régions uniformes, et de textures, ce qui permet de bien tester les différents algorithmes de traitement d'image. C'est une bonne image de test ! Ensuite, « Lenna » est l'image d'une femme attirante. Ce n'est pas une surprise que la communauté de la recherche dans le traitement d'image (principalement masculine) gravite autour d'une image qu'elle trouve attirante." 
                 \begin{center}
-                        \includegraphics[width=0.4\textwidth]{Images/Lenna.png}
+                        \includegraphics[width=0.4\textwidth]{Images/Lenna.png}\\
+                        \textit{Photo 1 - Lenna}\\
                 \end{center}
 
                 \begin{minted}[
                     baselinestretch=1.4,
                     bgcolor=LightGray,
                     fontsize=\footnotesize]
-                    {c}
-                        #include <opencv2/opencv.hpp>
-
-                        using namespace cv;
-
-                        int main(int argc, char** argv ){
-                            if ( argc != 2 ){ // Si le nombre d argument depasse 2 (le prog + le nom de l image)
-                                printf("usage: programme <Image_Path>\n");// Affichage message
-                                return -1; // ERROR
-                            }
-
-                            Mat image; // Stocke les donnees de l image dans Mat
-                            
-                            image = imread( argv[1], 1 ); // Charge l'image
-                            
-                            if ( !image.data ){// Si le chargement de la variable image n a pas de donnees
-                                printf("No image data \n");
-                                return -1; // ERROR
-                            }
-                            
-                            namedWindow(argv[1], WINDOW_AUTOSIZE ); // Creer un nom pour l image
-                            imshow(argv[1], image); // Affiche l image dans une fenetre creer sur la ligne precedente
-                            waitKey(0); // Attend une action via une touche
-                            return 0;
-                        }
-
+                    {c++}
+#include <opencv2/opencv.hpp>
+using namespace cv;
+int main(int argc, char** argv ){
+    if ( argc != 2 ){ //Si le nombre d argument dépasse 2 (le prog+le nom de l image)
+        printf("usage: programme <Image_Path>\n");// Affichage message
+        return -1; // ERROR
+    }
+    Mat image; // Stocke les donnees de l image dans la tableau de classe Mat
+    image = imread( argv[1], 1 ); // Charge la matrice que l'image represente
+    if ( !image.data ){// Si la matrice n'a pas de valeur
+        printf("No image data \n");
+        return -1; // ERREUR
+    }
+    namedWindow(argv[1], WINDOW_AUTOSIZE ); // On nom une fenêtre 
+    imshow(argv[1], image); //Affiche l'image dans la fenêtre 
+    waitKey(0); // Attend une action via une touche pour quitter
+    return 0;
+}
                 \end{minted}
-
-                Le resultat après compilation: 
                 \begin{center}
-                        \includegraphics[width=0.4\textwidth]{Images/PrintImageSimple.png}
+                    \textit{Programme 1 - Chargement d'une image et affichage}\\
+                \end{center}
+                
+                Résultat après compilation et exécution: 
+                \begin{center}
+                        \includegraphics[width=0.5\textwidth]{Images/PrintImageSimple.png}\\
+                        \textit{Résultat 1 - Affichage d'une image chargé}
+                \end{center}
+
+                \subsubsection{"VideoCapture"}
+                La fonction \textit{VideoCapture} nous permet de prendre une instantanée via une caméra.
+                \begin{minted}[
+                    baselinestretch=1.4,
+                    bgcolor=LightGray,
+                    fontsize=\footnotesize]
+                    {c++}
+
+#include "opencv2/opencv.hpp"
+using namespace cv;
+int main (int argc, char **argv){
+  VideoCapture camera(atoi (argv[1])); Ouvre la caméra demandé en argument
+  if (!camera.isOpened ()){return -1;}
+      Mat image;
+      camera >> image;	//Récupère l'image depuis la caméra
+      imshow ("Webcam", image); // Affiche l'image
+      waitKey (0)
+  return 0;
+}
+               \end{minted}
+               \begin{center}
+                   \textit{Prise d'instantanée depuis caméra et affichage}
+               \end{center}
+
+                Résultat après compilation et exécution: 
+               \begin{center}
+                   \includegraphics[width=0.5\textwidth]{Images/PhotoWebcam.png}\\
+                   \textit{Résultat 2 - Prise d'instantanée et affichage}
+               \end{center} 
+                
+
+        \subsection{Changement d'espace de couleur}
+            Le changement d'espace de couleur permet de voir différemment la même image et ainsi la traiter avec plus d'efficacité. Voici deux espace de couleur différente à BGR, les différentes luminances de gris et les teintes-saturation-valeur (HSV).
+            Pour effectuer ce changement, l'utilisation de la fonction \textit{cvtColor()} sera utile.
+                \subsubsection{BGR2GRAY}
+                Voici un code qui permet de passer de l'espace de couleur BGR en celui de gris: 
+                
+                \begin{minted}[
+                    baselinestretch=1.4,
+                    bgcolor=lightgray,
+                    fontsize=\footnotesize]
+                    {c++}
+#include <opencv2/opencv.hpp>
+using namespace cv;
+int main(int argc, char ** argv){
+        char * imageName = argv[1]; // on recupère le chemin où est l'image
+        Mat image;
+        image =imread(imageName);
+        if(argc!=2 || !image.data){
+                printf("ERROR");
+                return -1;
+        }
+        Mat gray_image;
+        // cvtColor(source, destination, traduction d'espace de couleur)
+        cvtColor(image, gray_image, COLOR_BGR2GRAY); 
+        namedWindow(imageName, WINDOW_AUTOSIZE);
+        namedWindow("Gray image", WINDOW_AUTOSIZE);
+        imshow(imageName, image);
+        imshow("Gray image", gray_image);
+        waitKey(0);
+        return 0;
+}
+                \end{minted}
+                \begin{center}
+                \includegraphics[width=0.8\textwidth]{Images/ImgBGR2GRAY.png}\\
+                \textit{Résultat 3 - Affichage image normal et teinte de gris}
                 \end{center}
 
 
-
-
-
-
-                
-                \subsubsection{"VideoCapture"}
-        \subsection{Changement d'espace de couleur}
-                \subsubsection{BGR2GRAY}
                 \subsubsection{BGR2HSV}
+                Pour notre mission de compter des passants, nous avons besoin de reconnaître un humain d'un arbre ou bâtiment. Dans l'espace de couleur HSV (Hue Saturation Value) à la différence d'autres espaces de couleurs, tout les humains ont la même teinte (Hue).
+
+
+
+
+
+
+
+
         \subsection{Différence entre deux images}
-                \subsubsection{Sans changement d'espace de couleur}
-                \subsubsection{Via l'espace de couleur HSV}
+                %\subsubsection{Via l'espace de couleur HSV}
 
 %%%%%%%%%%%%%%%%%%%%%%%% CAMERA %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Caméra}
