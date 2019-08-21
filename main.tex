@@ -1,6 +1,7 @@
 %-------------------------------------------------------------------------------
 % TEYSSIER Maxime
-% IUT Béziers - LP Réseaux et Télécommunications - Promotion: 2018/2019
+% IUT Béziers - LP Réseaux et Télécommunications Parcours IdO 
+% Promotion: 2018/2019
 % Stage IUT de Béziers
 % Intitulé: WalkersVision
 % Tuteur: DRUON Sebastien
@@ -41,8 +42,6 @@
 \renewcommand{\thesection}{\arabic{section}}
 \newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
 \definecolor{LightGray}{gray}{0.7}
-
-
 \usepackage{tikz}
 \usepackage{amsmath}
 
@@ -82,28 +81,29 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%% Page blanche sans mise en page %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\strut									      %
-\thispagestyle{empty}							      %
-\newpage							              %
+\strut
+\thispagestyle{empty}
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\thispagestyle{empty}							      
 
 %----------------Remerciements--------------------------------------------------
 \section*{Remerciements}
-J'adresse mes remerciements aux personnes qui m'ont permis à réaliser ce stage au sein de l'IUT de Béziers.
+J'adresse mes remerciements aux personnes qui m'ont permis à réaliser ce stage au sein de l'IUT de Béziers.\\
 
-\bigskip
+En premier lieu, M. Sébastien DRUON, professeur de l'Institut Universitaire de Technologie de Béziers, pour m'avoir donné l'opportunité de faire ce stage et de m'avoir accepté au sein de son équipe. Mais aussi en qualité de tuteur d'entreprise, en me guidant dans mon travail et m'aider lors de difficultés.\\
 
-En premier lieu, M. Sébastien DRUON,\\
-Je souhaite remercier\\
-Je tiens à remercier aussi \\
+Je souhaite remercier M. Frédéric COMBY, professeur de l'Institut Universitaire de Technologie de Béziers, pour m'avoir aidé lors de difficultés rencontré.\\
+
+Je tiens à remercier aussi l'équipe de l'Institut Universitaire de Technologie de Béziers, pour leur sympathie et leur gentillesse apporté durant ce stage.\\
 
 \newpage
 
+\renewcommand{\thepage}{}
 %-------------------------------------------------------------------------------
 %-------------------------------------------------------------------------------
 % Sommaire								       
 %-------------------------------------------------------------------------------
-
 \tableofcontents
 \clearpage 
 
@@ -115,8 +115,12 @@ Je tiens à remercier aussi \\
 \startcontents[mainsections]%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Introduction}
+\newpage
+\renewcommand{\thepage}{\arabic{page}}
+\setcounter{page}{1}
 
+\section{Introduction}
+\setcounter{page}{1} 
     % Mise en explication du sujet
     % Identification du besoin
     % Modelisation du terrain 
@@ -124,12 +128,19 @@ Je tiens à remercier aussi \\
 
 % A la recherche d'une intro
     % 1/
-    %"Les recensements de population constituent la source principale des études sociodémographiques portant sur le local, et en particulier sur le niveau infra communal, celui des quartiers. Ils permettent des descriptions des caractéristiques du peuplement des quartiers sous l’aspect structurel en appréciant les écarts avec leur environnement proche, par exemple celui de la commune ou de l’unité urbaine à laquelle ils appartiennent." \url{www.cairn.info/revue-francaise-des-affaires-sociales-2001-3-page-39.htm}
+    \begin{itemize}
+        \item "Les recensements de population constituent la source principale des études sociodémographiques portant sur le local, et en particulier sur le niveau infra communal, celui des quartiers. Ils permettent des descriptions des caractéristiques du peuplement des quartiers sous l’aspect structurel en appréciant les écarts avec leur environnement proche, par exemple celui de la commune ou de l’unité urbaine à laquelle ils appartiennent."
+        (Source: \href{https://www.cairn.info/revue-francaise-des-affaires- sociales-2001-3-page-39.htm}{https://www.cairn.info/revue-francaise-des-affaires- sociales-2001-3-page-39.htm})\\
+        
 
     % 2/
-        Le domaine de vision par ordinateur, poussé par les progrès scientifiques et technologiques récents, s’oriente vers l’analyse en temps réel des scènes comportant des sujets humains. (Source: \url{https://tel.archives-ouvertes.fr/tel-00004804/document} ) %- titre / auteur: Vision par ordinateur pour l’interaction homme-machine fortement couplée - De François Bérard - Thèse) \\
-       
-       \textbf{FAIRE L'INTRODUCTION !}
+    \item "Le domaine de vision par ordinateur, poussé par les progrès scientifiques et technologiques récents, s’oriente vers l’analyse en temps réel des scènes comportant des sujets humains." (Source: \href{https://tel.archives-ouvertes.fr/tel-00004804/document}{https://tel.archives-ouvertes.fr/tel-00004804/document} ) %- titre / auteur: Vision par ordinateur pour l’interaction homme-machine fortement couplée - De François Bérard - Thèse) \\
+    \\
+    \end{itemize}
+        
+    Ce rapport de stage de Licence Professionnelle de Réseaux et Télécommunication porte sur le thème de la fréquentation d'une place dans la ville de Béziers. Le domaine de la vision par ordinateur nous permet d'obtenir de multiples résultats en temps réel en un temps extrêmement rapide qu'un humain aurait besoin d'un temps plus important. C'est pour cela que, pour analyser comme le demande la mission, un ordinateur recevant des images pourra en déduire les informations que nous lui demanderont. \\
+    Tout au long de ce rapport, nous allons comprend ce qu'est une image et comment la traiter. Par la suite nous allons faire des mathématiques théorique pour comprendre le fonctionnement de la vision stéréo et l'appliqué. \\
+    Pour réaliser ce stage, j'ai utilisé la librairie OpenCV et j'ai programmé en langage C/C++.
 
 \newpage
 \section*{Présentation}
@@ -540,6 +551,10 @@ int main(int argc, char **argv){
         \includegraphics[width=0.8\textwidth]{Images/BGSub/BGSubWithColor.png}\\
         \textit{Suppression du fond et affichage de la couleur original des pixels}
     \end{center}
+    \subsection{Conclusion}
+    
+    Cette partie a permis de voir ce qu'est une image en informatique, une matrice. De celle ci, on a pu l'afficher dans une fenêtre en tant qu'image et on a pu afficher une succession d'image, une vidéo. De plus, le fait d'analyser et pouvoir traiter ses données de chaque image, donne accès à modifier ses valeurs. Ainsi, changer l'espace de couleur de BGR en HSV est devenu possible pour nous. De ce fait, la création de filtre pour accepter qu'un intervalle de valeurs pour identifier la peau humaine devient possible. Dans le même cas, la suppression du fond par analyse de pixel est créé. 
+    \newpage
 %%%%%%%%%%%%%%%%%%%%%%%% CAMERA %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Caméra}
 \subsection{Calibration}
