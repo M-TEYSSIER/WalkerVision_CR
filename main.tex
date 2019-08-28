@@ -44,6 +44,11 @@
 \definecolor{LightGray}{gray}{0.7}
 \usepackage{tikz}
 \usepackage{amsmath}
+\usepackage{pdfpages} 
+\usepackage{pdflscape}
+\usepackage{biblatex}
+\bibliographystyle{plain} 
+\bibliography{bibli.bib}
 
 %-------------------------------------------------------------------------------
 %Début du document
@@ -138,12 +143,12 @@ Je tiens à remercier aussi l'équipe de l'Institut Universitaire de Technologie
     \\
     \end{itemize}
         
-    Ce rapport de stage de Licence Professionnelle de Réseaux et Télécommunication porte sur le thème de la fréquentation d'une place dans la ville de Béziers. Le domaine de la vision par ordinateur nous permet d'obtenir de multiples résultats en temps réel en un temps extrêmement rapide qu'un humain aurait besoin d'un temps plus important. C'est pour cela que, pour analyser comme le demande la mission, un ordinateur recevant des images pourra en déduire les informations que nous lui demanderont. \\
+    Ce rapport de stage de Licence Professionnelle de Réseaux et Télécommunication porte sur le thème de la fréquentation d'une place dans la ville de Béziers. Le domaine de la vision par ordinateur nous permet d'obtenir de multiples résultats en temps réel. C'est pour cela que, pour analyser comme le demande la mission, un ordinateur recevant des images pourra en déduire les informations que nous lui demanderons. \\
     Tout au long de ce rapport, nous allons comprend ce qu'est une image et comment la traiter. Par la suite nous allons faire des mathématiques théorique pour comprendre le fonctionnement de la vision stéréo et l'appliqué. \\
     Pour réaliser ce stage, j'ai utilisé la librairie OpenCV et j'ai programmé en langage C/C++.
 
 \newpage
-\section*{Présentation}
+\section{Présentation}
 \subsection*{L'établissement}
 
 L'Institut Universitaire de Technologie de Béziers propose des formations universitaires alliant théorie et pratique qui répondent aux attentes des entreprises en termes de formation technologique. \\
@@ -166,33 +171,34 @@ Depuis 2011, l’IUT de Béziers s’est installé dans ses nouveaux locaux, pla
 \textbf{Contact}:\\ 3, Place du 14 juillet,\\ BP 50438,\\ 34505 Béziers cedex\\ Tél.: +33(0)4 67 11 60 00
 
 
-\subsection*{Les missions}
+\subsection*{La mission}
+    
+Le stage a pour but d'être utile pour la ville de Béziers. La mission est une solution qui créer des statistiques de passants sur une place public. \\
+
+La mission est, dans un premier temps, de connaître le nombre de passants sur la place en temps réel. Les données traitées seront envoyés vers un serveur via TCP/IP ou LoRa. Seul des données transiterons. Aucune image sera transmise.\\ 
+
+Dans un second temps, nous essayerons de remonter l'endroit ou ce trouve les passants sur la place et connaître leur typologie (adulte/enfant).\\
+
+De plus, un dimensionnement de caméra est à réaliser.
+
+
 \subsection*{Horaires}
-Dans le cadre du stage, je dois faire 35h par semaine. Les horaires étaient données :
-9h00 - 12h00, 13h00 - 17h00.
 
 \begin{center}
         \begin{tabular}{|l|l|l|l|l|c|r|}
                 \hline
                 Lundi & Mardi & Mercredi & Jeudi & Vendredi \\
                 \hline
-                8h00 - 12h00 & 8h00 - 12h00 & 8h00 - 12h00 & 8h00 - 12h00 & 8h00 - 12h00 \\
+                9h00 - 12h00 & 09h00 - 12h00 & 9h00 - 12h00 & 9h00 - 12h00 & 9h00 - 12h00 \\
+                \hline
+                PAUSE&PAUSE&PAUSE&PAUSE&PAUSE\\
+                \hline
                 13h00 - 17h00 & 13h00 - 17h00 & 13h00 - 17h00 & 13h00 - 17h00 & 13h00 - 17h00 \\ 
                 \hline
         \end{tabular}
 \end{center}
 \newpage
 
-\section{Les missions}
-
-
-Le stage a pour but d'être utile pour la ville de Béziers. La mission est une solution qui créer des statistiques de passants sur une place public. \\
-
-La mission est, dans un premier temps, de connaître le nombre de passants sur la place en temps réel. Les données traitées seront envoyés vers un serveur via TCP/IP ou LoRa. Seul des données transiterons. Aucune image sera transmise.\\ 
-
-Dans un second temps, nous essayerons de remonter l'endroit ou ce trouve les passants sur la place et connaitre leur typologie (adulte/enfant).\\
-
-De plus, un dimensionnement de camera est à réaliser.
 \newpage
 %%%%%%%%%%%%%%%%%%%%% Page blanche avec mise en page %%%%%%%%%%%%%%%%%%%%%%%%%%
 \strut									      %
@@ -201,7 +207,37 @@ De plus, un dimensionnement de camera est à réaliser.
 \newpage
 
 \section{Traitement d'image}
-Avant de traiter une image, qu'est ce qu'une image? Une image est une matrice de valeurs. Les valeurs diffèrent de la propriété de l'image. Lorsque je vais prendre une image elle aura des valeurs qui définit les couleurs sur un espace de couleur BGR (Blue - Green - Red).
+Avant de traiter une image, qu'est ce qu'une image? Une image est une matrice de valeurs. Les valeurs diffèrent de la propriété de l'image. Lorsque je vais prendre une image elle aura des valeurs qui définit les couleurs sur un espace de couleur BGR (Blue - Green - Red).\\
+
+Par exemple, cette icône:\\
+\begin{center}
+\includegraphics[width=3cm,heigth=3cm]{Images/iconeGrande.PNG}\\
+\textit{icone - 10x10 pixels}
+\end{center}
+
+A pour données:
+
+
+\begin{minted}[
+    baselinestretch=1.4,
+    bgcolor=lightgray,
+    fontsize=\footnotesize]
+{bash}
+
+[1,1,252,0,0,4,249,0,21,0,0,0,0,249,62,0,0,0,0,224,249,0,0,0,229,249,0,0,0,0;
+1,1,6,1,1,250,0,0,0,249,0,21,0,0,0,0,249,62,0,0,0,0,224,249,0,0,0,229,249,0;
+249,0,21,1,1,8,0,0,254,0,0,6,249,0,21,0,0,0,0,249,62,0,0,0,0,224,249,0,0,0;
+0,0,0,249,0,21,1,1,6,0,0,247,1,1,7,249,0,21,0,0,0,0,249,62,0,0,0,0,224,249;
+0,249,62,0,0,0,249,0,21,0,0,1,15,15,215,1,1,9,249,0,21,0,0,0,0,249,62,0,0,0;
+0,0,0,0,249,62,0,0,0,249,0,21,1,1,6,1,1,245,1,1,6,249,0,21,0,0,0,0,249,62;
+0,224,249,0,0,0,0,249,62,0,0,0,249,0,21,0,0,8,1,1,242,1,1,7,249,0,21,0,0,0;
+0,0,0,0,224,249,0,0,0,0,249,62,0,0,0,249,0,21,0,0,0,1,1,250,1,1,6,249,0,21;
+229,249,0,0,0,0,0,224,249,0,0,0,0,249,62,0,0,0,249,0,21,1,1,7,1,1,248,0,0,0;
+0,0,0,229,249,0,0,0,0,0,224,249,0,0,0,0,249,62,0,0,0,249,0,21,1,1,7,1,1,252]
+
+\end{minted}
+
+L'interprétation pour ce cas est que l'image est en BGR ( Blue Green Red). Donc les données affichés sont par paquets de 3 valeurs (vecteur de 3). Le premier pixel par exemple a pour valeur [1,1,255], qui vaut la couleur ROUGE.
 
         \subsection{Ouvrir et afficher une image}
                 Une image peut être enregistrer sur un disque sous format .jpg, .png... Dans ce cas là, une fonction nous permettra de charger l'image. Pour cela nous utiliserons "imread()". Cela dit, via une webcam nous pouvons prendre une photo et la charger. Pour cela, nous utiliserons la fonction "VideoCapture". Deux choix sont possible: utiliser une image déjà créer ou prendre une photo.
@@ -387,10 +423,10 @@ int main (int argc, char *argv[]){
         \textit{Capture de la peau humaine avec des parasites}
     \end{center}
 
-    Le traitement ne permet pas d'avoir un résultat parfait. Pour améliorer le filtre, l'utilisation de dilatation et érosion de pixel.\\
+    Le traitement ne permet pas d'avoir un résultat parfait. Pour améliorer le filtre, l'utilisation de dilatation et érosion de pixel est une méthode possible.\\
     
     \subsection{Suppression de fond}
-    \subsubsection{pMOG2}
+    \subsubsection{MOG2}
     
     Sur l'étape précédente, le résultat nous affiche le fond d'une image alors que le résultat devrait être juste la peau humaine. Cela dit, si la couleur est dans la même tranche de valeur accepté que celle demandé l'objet va apparaître sur l'image. 
     Pour y remédier, la suppression de fond est nécessaire. Pour la réalisation, l'utilisation d'une vidéo est exigé car le programme ci-dessous, permet de supprimer tout ce qui ne bouge pas, soit le fond. 
@@ -408,7 +444,6 @@ int main (int argc, char *argv[]){
 #include <stdio.h>
 #include <iostream>
 #include <sstream>
-
 using namespace cv;
 using namespace std;
 
@@ -417,9 +452,7 @@ Ptr<BackgroundSubtractor> pMOG2;
 int keyboard; 
 void processWcam(char* videoFilename){
     VideoCapture capture(atoi(videoFilename));
-
     if(!capture.isOpened()){exit(EXIT_FAILURE);}
-    
     while( (char)keyboard != 'q'  && (char)keyboard != 27 ){
         if(!capture.read(frame)) {exit(EXIT_FAILURE);}
         GaussianBlur(frame,frame,Size(5,5),0,0);
@@ -454,7 +487,7 @@ int main(int argc, char* argv[]){
         \textit{Suppression du fond lors d'un mouvement}\\
     \end{center}    
     
-    Via ce programme, le résultat est donné sur un seuil (threshold). Si les valeurs exactes des pixels en sont pas affiché cela devient un problème pour la suite. 
+    Via ce programme, le résultat est donné sur un seuil (threshold). Si les valeurs exactes des pixels ne sont pas affiché cela devient un problème pour la suite. C'est à dire, nous avons un résultat en noir et blanc. nous ne pourrons pas traiter la couleur avec ce résultat.
     
     \subsubsection{Pixel par pixel}
     Pour avoir un maximum de détail, le résultat doit ressortir les couleurs. Donc, le programme suivant va afficher les pixels réel au lieu de pixel blanc sur l'ancien programme.
@@ -485,7 +518,6 @@ int Calcul(unsigned char a, unsigned char b, unsigned char c, unsigned char d,
         r=0;
     }
 }
-
 int main(int argc, char **argv){
     int renew=0;
     unsigned char R,G,B,H1,S1,V1,H,S,V,Res,Bes,Ges;  
@@ -557,9 +589,17 @@ int main(int argc, char **argv){
     \newpage
 %%%%%%%%%%%%%%%%%%%%%%%% CAMERA %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Caméra}
-\subsection{Calibration}
+\subsection{Calibration - théorie}
 \subsubsection{Vision}
-Lorsque l'on prend une photo, le capteur perçoit un point sur un plan 2D (2 dimension). Le schéma ci-dessous présente un plan orthonormé en 3D, avec comme axes x,y et z. Lorsque l'on inscrit un pixel sur une image, par exemple "m", nous avons pris la valeur du point M sur ses axes x et y car le capteur n'a pas de notion de profondeur, qui est la dimension manquante, la z.
+Lorsque l'on prend une photo, le capteur perçoit un point sur un plan 2D (2 dimension).\\
+
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Images/Vision/Projection2D.png}
+\end{center}
+
+
+
+Le schéma ci-dessous présente un plan orthonormé en 3D, avec comme axes X, Y et Z. Lorsque l'on inscrit un pixel sur une image, par exemple "m", nous avons pris la valeur du point M sur ses axes x et  car le capteur n'a pas de notion de profondeur, qui est la dimension manquante, la Z.
 
 \begin{center}
     \begin{tikzpicture}
@@ -671,8 +711,7 @@ $$\begin{matrix}
 \end{matrix}$$
 
 \textit{ \textbf{$\alpha$} et \textbf{$\beta$} sont la densité de pixel et \textbf{s} est le "skew"(qui tant vers 0).}\\
-
-Si nous avons la valeur de \textbf{u} et de \textbf{v}, par exemple: u=310, v=240, nous avons pas le moyen de savoir la valeur de \textbf{w} (étant le facteur de profondeur de l'objet).\\
+Nous pouvons remarquer que nous n'avons pas le moyen de savoir la valeur de \textbf{w} (étant le facteur de profondeur de l'objet).\\
 Il faut passer sous un modèle 3D:
 
 \begin{center}
@@ -931,8 +970,9 @@ Donc: \\
 \begin{itemize}
     \item \textbf{E0} et \textbf{E1} sont les droites épipôlaires
     \item \textbf{e} et \textbf{e'} sont les épipôles gauche et droit
-    \item \textbf{e} est l'origine de \textbf{Cam1} vue de \textbf{Cam0} et \textbf{e'} est l'origine de \textbf{Cam0} vue de \textbf{Cam1}
+    \item \textbf{e} est l'origine de \textbf{Cam1} vue de \textbf{Cam0} et \textbf{e'} est l'origine de \textbf{Cam0} vue de \textbf{Cam1}\\
 \end{itemize} 
+
 
 \subsubsection{Calibrage d'une caméra}
 
@@ -958,8 +998,914 @@ En tenant compte des dimensions du pixel nous avons 2 facteur qui s'insèrent da
     \item Avec notre capteur, \textbf{$\alpha$} et \textbf{$\beta$} ont pour valeur:  $\frac{1}{25}$ pixel/$\mu$m.
     \item \textbf{x} et \textbf{y} sont exprimés en mètre.
     \item \textbf{$\alpha$ fx} et \textbf{$\beta$ fy} sont alors exprimés en pixel.mètre . 
-    \item Uo et Vo  sont exprimés en pixel. 
+    \item Uo et Vo  sont exprimés en pixel. \\
 \end{itemize}
+
+De cette matrice, on en déduit:\\
+$$\left\{ 
+    \begin{array}{l}
+        u=fX+UoZ\\
+        v=fY+VoZ\\
+        w=Z\\
+    \end{array} \\
+\right. $$
+
+$$\left\{ 
+    \begin{array}{ll}
+        u'=\frac{u}{w}=\frac{fX+U0Z}{Z}\\ \\
+        v'=\frac{v}{w}=\frac{fY+V0Z}{Z} \\ \\
+    \end{array} \\
+\right. $$
+
+
+Pour un point, on pourra sortir la focal (\textit{f}) avec les données des points (\textit{Uo} et \textit{Vo}) :
+
+$$\left\{ 
+    \begin{array}{ll}
+        Zu'=\textbf{f}X+\textbf{Uo}Z\\ \\
+        Zv'=\textbf{f}Y+\textbf{Vo}Z \\ \\
+    \end{array} \\
+\right. $$
+
+\subsubsection{Calcul de distance}
+
+Avec les données que l'on récupère grâce à la matrice précédente, la distance ce calcule en utilisant les coordonnées d'un point sur l'image qui représente la vue de gauche et un point sur l'image droite. Avec, nous récupérons  [\textit{X Y Z}] des points et nous appliquons cette formule pour connaître la distance entre ces deux points:\\
+
+\hspace{4cm} d=\sqrt{(X2-X1)^2+(Y2-Y1)^2+(Z2-Z1)^2}
+
+\subsubsection{Registration - Mise en correspondance}
+
+Cette pratique permet de trouver où ce trouve un point d'une image sur une autre image, par méthode de recherche par voisinage. C'est à dire, lorsque le point est définit nous allons prendre son voisinage pour retrouver un plus gros endroit sur l'autre image.
+
+\begin{center}
+    \includegraphics[width=\textwidth]{Images/Vision/Registration.PNG}\\
+    \textit{Exemple de registration}\\
+\end{center}
+
+Sur l'image ci-dessus, la mise en correspondance des yeux sur l'image de gauche à comme valeur ajouter les pixels dans les rectangles bleu. Ainsi la recherche sera plus fructueuse et permettra d'identifier automatiquement les pixels en commun.\\
+
+Cette technique consiste à faire: \sqrt{\sum((R1-R2)^2+(G1-G2)^2+(B1-B2)^2)}\\
+
+Dès lors, le calcul de distance peut s'automatiser, par exemple en calculant avec un filtre sur l'image pour délimiter, tel un seuil, entre le plus haut pixel et le plus bas.
+
+
+\subsection{Programmation}
+
+Pour calibrer deux caméra, j'ai utilisé dans un premier temps la webcam de mon ordinateur portable (résolution: 640x480) et une caméra externe Logitech C550 (résolution réduite pour l'exercice: 640x480).\\
+
+Pour le placement des caméras, j'ai du me baser par rapport à la webcam et donc placer la caméra externe à hauteur (quasi) équivalent et à environ 20cm horizontalement, pour ameriorer la calibration.\\
+
+Voici un schéma du montage:
+
+\begin{center}
+    \includegraphics[width=0.5\textwidth]{Images/WCs.PNG}\\
+    \textit{Positionnement des caméras de test}\\ 
+\end{center}
+
+\subsubsection{Calibration des caméras}
+
+Grâce au bouquin \textit{Learning OpenCV: Computer Vision with the OpenCV Library by Gary Bradski and Adrian Kaehler}, le site web d'OpenCV et leur github, j'ai pu trouver explications et des programmes pour réaliser la calibration.\\
+
+Le programme de calibration stéréo se trouve section \ref{stereo_calib.cpp}, nous permet de générer les paramètres intrinsèques et extrinsèques.  \\
+
+Pour exécuter ce programme, je dois le compiler. Pour cela, j'ai utilisé un CMakeList.txt (permet d'exécuter un ensemble d'action). J'ai trouvé cette utilisation plus agréable que la commande g++... (qui est très longue).
+
+Le CMakeList.txt est composé de:
+
+
+\begin{minted}[
+        baselinestretch=1.4,
+        bgcolor=LightGray,
+        fontsize=\footnotesize]
+        {c++}
+        
+cmake_minimum_required(VERSION 3.1)
+project(stereo_calib)
+find_package(OpenCV REQUIRED)
+add_executable(stereo_calib ../dev/stereo_calib.cpp)
+target_link_libraries(stereo_calib ${OpenCV_LIBS})
+
+\end{minted}
+
+Après création du fichier, j'exécute "\textit{cmake .}" et "\textit{make}".
+
+\begin{minted}[
+        baselinestretch=1.4,
+        bgcolor=LightGray,
+        fontsize=\footnotesize]
+        {c++}
+$ cmake .
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/maxime/WalkersVision/test/cmake
+
+$ make
+[100%] Built target stereo_calib
+
+\end{minted}
+
+J'ai accès à mon programme, que je lance avec argument la largeur de mon plateau d'échec et sa hauteur (8x6) ainsi que le nombre d'instantanée que je souhaite (15).
+
+\begin{minted}[
+        baselinestretch=1.4,
+        bgcolor=LightGray,
+        fontsize=\footnotesize]
+        {c++}
+./stereo_calib -h=6 -w=8 -n=15
+\end{minted}
+
+Dans un premier temps, le programme va détecter les chessboard (plateau d'échec) pour nous afficher que tout marche. Si rien n'est affiché c'est que nous avons mal renseigner les arguments. \\
+
+\begin{center}
+    \includegraphics[width=\textwidth]{Images/Code/PhaseDetect.png}\\
+    \textit{Phase de détection}
+\end{center}
+
+Tout ce passe bien, nous remarquons qu'il détecte bien notre chessboard. Pour afficher ce résultat sur l'image, le programme rentre dans la fonction \textit{calibrateFromeSavedImages()} et utilise une autre fonction: \textit{findChessboardCornersAndDraw()}. Cette dernière fonction à besoin de l'image de gauche et l'image de droite et va les traités séparément. Pour l'instant aucun stéréo n'est imaginé. La fonction \textit{findChessboardCornersAndDraw()} va modifier l'espace de couleur des images pour en venir en niveau de gris. Puis utilise la fonction \textit{findChessboardCorners()} qui va lire l'image pour trouver la position intérieur des coins du chessboard et afficher des ronds liés avec la fonction \textit{drawChessboardCorners()}. Dès lors, les images sont affichés à l'écran.\\
+
+A la fin de chaque traitement d'images, ces images (en espace de couleur gris), sont enregistré dans le répertoire courant (car vous n'avons pas indiqué de chemin autre).\\
+
+Le programme va prendre des photos lorsque le chessboard est bien détecté pour pouvoir appliquer les fonctions. Si le chessboard n'est pas reconnu, le programme laisse tourner le flux vidéo.\\
+
+\begin{center}
+    \includegraphics[width=\textwidth]{Images/Code/PhaseCapt.png}\\
+    \textit{Phase de capture de photo avec chessboard}
+\end{center}
+
+Le suite du programme traite la calibration stéréo via la fonction \textit{calibrateStereoCamera()}. Cette fonction débute par l'apprentissage de pixel. Celle-ci initialise un vecteur de vecteur à 3 floats qui va recevoir chaque valeurs de pixel. \newline
+Ensuite, l'utilisation des fonctions \textit{stereoCalibrate()} permet d'obtenir les paramètres intrinsèques et extrinsèques. Ultérieurement, le programme créer un fichier pour chaque paramètres est inscrit les données dedans, tel que les matrices de caméra, matrice de rotation, translation...
+Le résultat des paramètres intrinsèques ce trouve page \pageref{Intrinsèques.yml}. Le résultat des paramètres extrinsèque ce trouve page \pageref{Extrinsèques.yml}. \newline
+Par la suite, l'exécution de la fonction \textit{stereoRectify()}, \textit{initUndistortRectifyMap()}  permet de faire une géométrie épipôlaire.
+
+\begin{center}
+    \includegraphics[width=\textwidth]{Images/epipol.png}\\
+    \textit{Rectification des images avec géométrie épipolaire}\\
+    \end{center}
+    
+    Le programme permet aussi de faire du temps différé. C'est à dire, nous donnons au programme l'emplacement de(s) image(s) déjà enregistré, le programme les charges et les traites comme précédemment.
+
+\subsection{Disparité}
+
+La disparité est une information importante car elle nous donner la distance entre le point d'une image et le même point sur une autre image. Voici l'explication en image:
+
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Images/Binocular-stereo-vision.png}\\
+    Voir bibliographie page  \pageref{biblio} - \cite{article}
+\end{center}
+
+Sur l'image de droite, l'objet n'a pas le même emplacement que sur l'image de gauche car la vue n'est pas sur la même coordonnée horizontal. Cela dit, l'objet ce trouve sur la même ligne épipolaire.\\
+
+Voici un résultat de calcul de disparité par programmation. Le code ce trouve page \pageref{disparite}
+\begin{center}
+    \includegraphics[width=0.6\textwidth]{Images/Code/Disparity.png}
+\end{center}
+
+
+
+
+
+% \begin{minted}[
+%         baselinestretch=1.4,
+%         bgcolor=LightGray,
+%         fontsize=\footnotesize]
+%         {c++}
+% \end{minted}
+
+
+
+
+
+\newpage
+\section{Dimensionnement des caméras}
+
+Dans le cadre du projet, j'ai dû faire un dimensionnement de caméras. Ces caméras sont celle qui seront installer sur la place de Béziers.\\
+
+Les caméras doivent répondre à plusieurs problématiques:
+\begin{itemize}
+    \item[$\bullet$] Voir toute la place
+    \begin{itemize}
+        \item[$\bullet$] Jour / Nuit
+        \item[$\bullet$] Champ de profondeur
+    \end{itemize}
+    \item[$\bullet$] Résistance :
+    \begin{itemize}
+        \item[$\bullet$] Climat
+        \item[$\bullet$]Vandalisme
+    \end{itemize}
+\end{itemize}
+
+La commande à pour contrainte d'être acheté via le site web: \href{eneo-security.com}{eneo-security.com}\newline
+
+Avec les problématique, ce fournisseur offres de bonnes solutions. Par la suite, j'ai dû faire un choix et donc un comparatif des offres pour ne pas avoir de caméras trop puissantes pour notre utilité ou inversement.  (Voir comparatif des caméras page: \pageref{Comparatif.pdf})
+
+Via ce document, j'ai pu remarquer que des caméras n'avaient pas de protection anti-vandalisme. Donc nous pouvons directement sélectionner réduire le choix à (en référence): \begin{itemize}
+    \item[$\bullet$] 220149
+    \item[$\bullet$] 220083
+    \item[$\bullet$] 219808
+    \item[$\bullet$] 219026
+    \item[$\bullet$] 216602
+    \item[$\bullet$] 214557\\
+\end{itemize}
+
+Après analyse, la caméra (ref: 216602) propose  une qualité d'image, un flux de streaming, un capteur, sensibilité à la lumière, une MOD, angle d'image, focale dès plus compatible avec notre application. De plus, l'alimentation en plus de Ethernet (POE) est disponible. De ce fait, nous devons acheter un switch en plus qui fourni du POE. Notre besoin pour le switch est d'alimenter deux caméras, pas besoin de prendre un switch 24/48 ports.
+
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{Dimensionnement/SWPOE.jpg}\\
+    \textit{Switch IAD-5SG1004MUA - Eneo}\\
+\end{center}
+\underline{Caractéristiques}:
+\begin{itemize}
+    \item[\bullet] Gigabit PoE switch, Desktop
+    \item[\bullet] 2x Ports Gigabit Uplink/PD RJ45
+    \item[\bullet] Port PD pour alimentation par 60W PoE Injector
+    \item[\bullet] 4x Ports 10/100/1000 PoE, IEEE 802.3af/at
+    \item[\bullet] Jusqu'à 30W par port, max. ≤60W au total
+    \item[\bullet] Protection contre les surtensions IEC61000-4-5 (6KV)
+    \item[\bullet] Le mode CCTV permet une transmission jusqu'à 250m @ 10Mbps
+    \item[\bullet] Gamme de température : -10°C à +45°C
+    \item[\bullet] Alimentation 60W contenu dans la livraison
+    \item[\bullet] Power supply included\\ 
+\end{itemize}
+Dès la réception et lecture de la documentation, nous avons installer avec mon tuteur le matériel pour le tester avant la mise en place.
+\begin{center}
+    \includegraphics[width=0.6\textwidth]{Dimensionnement/camsw.png}\\
+    \textit{Installation caméra/switch}\\
+\end{center}
+
+Via un navigateur web, j'ai pu interagir avec l'interface de la caméra:
+\begin{center}
+\includegraphics[width=\textwidth]{Cameras/WebSiteView.png}\\
+\textit{Vue de la caméra via interface web}\\
+\end{center}
+
+Fouille site web , trouve params réseau -> rtps:554, recup flux vlc ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+\section{Codes}
+
+\subsection{Calibration stéréo}
+\label{stereo_calib.cpp}
+\begin{minted}[
+    baselinestretch=1.4,
+    bgcolor=lightgray,
+    fontsize=\footnotesize]
+{c++}
+
+#include <opencv2/calib3d/calib3d.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <iostream>
+#include <stdlib.h>
+
+// Definition du temps entre 2 capture (2 sec) 
+#define timeGap 3000000000U 
+
+using namespace cv;
+using namespace std;
+
+static void help() {
+    cout<<"/******** HELP *******/\n";
+    cout << "\nThis program helps you to calibrate the stereo cameras.\n This program
+    generates intrinsics.yml and extrinsics.yml which can be used in Stereo Matching
+    Algorithms.\n";
+    cout<<"It also displays the rectified image\n";
+    cout<<"\nKeyboard Shortcuts for real time (ie clicking stereo image at run
+    time):\n";
+    cout<<"1. Default Mode: Detecting (Which detects chessboard corners in real
+    time)\n";
+    cout<<"2. 'c': Starts capturing stereo images (With 2 Sec gap, This can be changed
+    by changing 'timeGap' macro)\n";
+    cout<<"3. 'p': Process and Calibrate (Once all the images are clicked you can press
+    'p' to calibrate)";
+    cout<<"\nType ./stereo_calib --help for more details.\n";
+    cout<<"\n/******* HELP ENDS *********/\n\n";
+}
+
+enum Modes { DETECTING, CAPTURING, CALIBRATING};
+Modes mode = DETECTING;
+int noOfStereoPairs;
+int stereoPairIndex = 0, cornerImageIndex=0;
+int goIn = 1;
+Mat _leftOri, _rightOri;
+int64 prevTickCount;
+vector<Point2f> cornersLeft, cornersRight;
+vector<vector<Point2f> > cameraImagePoints[2];
+Size boardSize;
+
+string prefixLeft;
+string prefixRight;
+string postfix;
+string dir;
+
+int calibType;
+
+Mat displayCapturedImageIndex(Mat);
+Mat displayMode(Mat);
+bool findChessboardCornersAndDraw(Mat, Mat);
+void displayImages();
+void saveImages(Mat, Mat, int);
+void calibrateStereoCamera(Size);
+void calibrateInRealTime(int, int);
+void calibrateFromSavedImages(string, string, string, string);
+
+Mat displayCapturedImageIndex(Mat img) {
+    std::ostringstream imageIndex;
+    imageIndex<<stereoPairIndex<<"/"<<noOfStereoPairs;
+    putText(img, imageIndex.str().c_str(), Point(50, 70), FONT_HERSHEY_PLAIN, 0.9,
+    Scalar(0,0,255), 2);
+    return img;
+}
+
+Mat displayMode(Mat img) {
+    String modeString = "DETECTING";
+    if (mode == CAPTURING) {
+        modeString="CAPTURING";
+    }
+    else if (mode == CALIBRATING) {
+        modeString="CALIBRATED";
+    }
+    putText(img, modeString, Point(50,50), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0,255,0),
+    2);
+    if (mode == CAPTURING) {
+        img = displayCapturedImageIndex(img);
+    }
+    return img;
+}
+
+// Pour trouver et afficher le chessbord
+bool findChessboardCornersAndDraw(Mat inputLeft, Mat inputRight) {
+    _leftOri = inputLeft; // Image source gauche 
+    _rightOri = inputRight; // Image source droite
+    bool foundLeft = false, foundRight = false;
+    cvtColor(inputLeft, inputLeft, COLOR_BGR2GRAY); // Passage img en gris
+    cvtColor(inputRight, inputRight, COLOR_BGR2GRAY); // Passage img en gris
+    foundLeft = findChessboardCorners(inputLeft, boardSize, cornersLeft,
+    CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE);
+    // Recherche de coin sur SRC G
+    foundRight = findChessboardCorners(inputRight, boardSize, cornersRight,
+    CALIB_CB_ADAPTIVE_THRESH | CALIB_CB_NORMALIZE_IMAGE); 
+    // Recherche de coin sur SRC D
+    drawChessboardCorners(_leftOri, boardSize, cornersLeft, foundLeft); 
+    drawChessboardCorners(_rightOri, boardSize, cornersRight, foundRight); 
+    _leftOri = displayMode(_leftOri);
+    _rightOri = displayMode(_rightOri);
+    if (foundLeft && foundRight) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+void displayImages() {
+    imshow("Left Image", _leftOri);
+    imshow("Right Image", _rightOri);
+}
+
+// Sauvegarder les images sur le disque
+void saveImages(Mat leftImage, Mat rightImage, int pairIndex) {
+    cameraImagePoints[0].push_back(cornersLeft);
+    cameraImagePoints[1].push_back(cornersRight);
+    if (calibType == 1) {
+        cvtColor(leftImage, leftImage, COLOR_BGR2GRAY);
+        cvtColor(rightImage, rightImage, COLOR_BGR2GRAY);
+        std::ostringstream leftString, rightString;
+        leftString<<dir<<"/"<<prefixLeft<<pairIndex<<"."<<postfix;
+        rightString<<dir<<"/"<<prefixRight<<pairIndex<<"."<<postfix;
+        imwrite(leftString.str().c_str(), leftImage);
+        imwrite(rightString.str().c_str(), rightImage);
+    }
+}
+//Calibrage du stereo
+void calibrateStereoCamera(Size imageSize) {
+    vector<vector<Point3f> > objectPoints;
+    objectPoints.resize(noOfStereoPairs);
+    // Pour le chaque images
+    for (int i=0; i<noOfStereoPairs; i++) {
+        for (int j=0; j<boardSize.height; j++) {
+            for (int k=0; k<boardSize.width; k++) {
+                // Multiplication de j et k par 0.018 (en cm)
+                // pour donner la taille d'un carré de la 
+                // planche de calibration. Ainsi le resultat
+                // donnera les valeurs ajusté à la réalité.
+                // Coord: X,Y,Z (Z=0.0)
+                objectPoints[i].push_back(Point3f(float(j*0.02),float(k*0.02),0.0)); 
+            }
+        }
+    }
+    Mat cameraMatrix[2], distCoeffs[2];
+    cameraMatrix[0] = Mat::eye(3, 3, CV_64F);
+    cameraMatrix[1] = Mat::eye(3, 3, CV_64F);
+    Mat R, T, E, F;
+    double rms = stereoCalibrate(objectPoints, cameraImagePoints[0],
+    cameraImagePoints[1],
+                                 cameraMatrix[0], distCoeffs[0],
+                                 cameraMatrix[1], distCoeffs[1],
+                                 imageSize, R, T, E, F,
+                                 CALIB_FIX_ASPECT_RATIO +
+                                 CALIB_ZERO_TANGENT_DIST +
+                                 CALIB_SAME_FOCAL_LENGTH +
+                                 CALIB_RATIONAL_MODEL +
+                                 CALIB_FIX_K3 + CALIB_FIX_K4 + CALIB_FIX_K5,
+                                 TermCriteria(TermCriteria::COUNT+TermCriteria::EPS,
+                                 100, 1e-5) );
+    cout<<"RMS Error: "<<rms<<"\n";
+    double err = 0;
+    int npoints = 0;
+    vector<Vec3f> lines[2];
+    for(int i = 0; i < noOfStereoPairs; i++ )
+    {
+        int npt = (int)cameraImagePoints[0][i].size();
+        Mat imgpt[2];
+        for(int k = 0; k < 2; k++ )
+        {
+            imgpt[k] = Mat(cameraImagePoints[k][i]);
+            undistortPoints(imgpt[k], imgpt[k], cameraMatrix[k], distCoeffs[k], Mat(),
+            cameraMatrix[k]);
+            computeCorrespondEpilines(imgpt[k], k+1, F, lines[k]);
+        }
+        for(int j = 0; j < npt; j++ )
+        {
+            double errij = fabs(cameraImagePoints[0][i][j].x*lines[1][j][0] +
+                                cameraImagePoints[0][i][j].y*lines[1][j][1] +
+                                lines[1][j][2]) +
+            fabs(cameraImagePoints[1][i][j].x*lines[0][j][0] +
+                 cameraImagePoints[1][i][j].y*lines[0][j][1] + lines[0][j][2]);
+            err += errij;
+        }
+        npoints += npt;
+    }
+    cout << "Average Reprojection Error: " <<  err/npoints << endl;
+    FileStorage fs("intrinsics.yml", FileStorage::WRITE);
+    if (fs.isOpened()) {
+        fs << "M1" << cameraMatrix[0] << "D1" << distCoeffs[0] <<
+        "M2" << cameraMatrix[1] << "D2" << distCoeffs[1];
+        fs.release();
+    }
+    else
+        cout<<"Error: Could not open intrinsics file.";
+    Mat R1, R2, P1, P2, Q;
+    Rect validROI[2];
+    stereoRectify(cameraMatrix[0], distCoeffs[0], cameraMatrix[1], distCoeffs[1],
+    imageSize, R, T, R1, R2, P1, P2, Q, CALIB_ZERO_DISPARITY, 1, imageSize,
+    &validROI[0], &validROI[1]);
+    fs.open("extrinsics.yml", FileStorage::WRITE);
+    if (fs.isOpened()) {
+        fs << "R" << R << "T" << T << "R1" << R1 << "R2" << R2 << "P1" << P1 
+        << "P2" << P2 << "Q" << Q;
+        fs.release();
+    }
+    else
+        cout<<"Error: Could not open extrinsics file";
+    bool isVerticalStereo = fabs(P2.at<double>(1, 3)) > fabs(P2.at<double>(0, 3));
+    Mat rmap[2][2];
+    initUndistortRectifyMap(cameraMatrix[0], distCoeffs[0], R1, P1, imageSize,
+    CV_16SC2, rmap[0][0], rmap[0][1]);
+    initUndistortRectifyMap(cameraMatrix[1], distCoeffs[1], R2, P2, imageSize, 
+    CV_16SC2, rmap[1][0], rmap[1][1]);
+    Mat canvas;
+    double sf;
+    int w, h;
+    if (!isVerticalStereo) {
+        sf = 600./MAX(imageSize.width, imageSize.height);
+        w = cvRound(imageSize.width*sf);
+        h = cvRound(imageSize.height*sf);
+        canvas.create(h, w*2, CV_8UC3);
+    }
+    else {
+        sf = 300./MAX(imageSize.width, imageSize.height);
+        w = cvRound(imageSize.width*sf);
+        h = cvRound(imageSize.height*sf);
+        canvas.create(h*2, w, CV_8UC3);
+    }
+    String file;
+    namedWindow("rectified");
+    for (int i=0; i < noOfStereoPairs; i++) {
+        for (int j=0; j < 2; j++) {
+            if (j==0) {
+                file = prefixLeft;
+            }
+            else if (j==1) {
+                file = prefixRight;
+            }
+            ostringstream st;
+            st<<dir<<"/"<<file<<i+1<<"."<<postfix;
+            Mat img = imread(st.str().c_str()), rimg, cimg;
+            remap(img, rimg, rmap[j][0], rmap[j][1], INTER_LINEAR);
+            cimg=rimg;
+            Mat canvasPart = !isVerticalStereo ? canvas(Rect(w*j, 0, w, h)) :
+            canvas(Rect(0, h*j, w, h));
+            resize(cimg, canvasPart, canvasPart.size(), 0, 0, INTER_AREA);
+            Rect vroi(cvRound(validROI[j].x*sf), cvRound(validROI[j].y*sf),
+                      cvRound(validROI[j].width*sf), cvRound(validROI[j].height*sf));
+            rectangle(canvasPart, vroi, Scalar(0,0,255), 3, 8);
+        }
+        if( !isVerticalStereo )
+            for(int j = 0; j < canvas.rows; j += 16 )
+                line(canvas, Point(0, j), Point(canvas.cols, j), 
+                Scalar(0, 255, 0), 1, 8);
+        else
+            for(int j = 0; j < canvas.cols; j += 16 )
+                line(canvas, Point(j, 0), Point(j, canvas.rows), 
+                Scalar(0, 255, 0), 1, 8);
+        imshow("rectified", canvas);
+    }
+}
+
+void calibrateInRealTime(int cam1, int cam2) {
+    VideoCapture camLeft(cam1), camRight(cam2);
+    if (!camLeft.isOpened() || !camRight.isOpened()) {
+        cout<<"Error: Stereo Cameras not found or there is some 
+        problem connecting them. Please check your cameras.\n";
+        exit(-1);
+    }
+    Mat inputLeft, inputRight, copyImageLeft, copyImageRight;
+    bool foundCornersInBothImage = false;
+    for( ; ; ) {
+        camLeft>>inputLeft;
+        camRight>>inputRight;
+        if ((inputLeft.rows != inputRight.rows) || (inputLeft.cols != 
+        inputRight.cols)) 
+        {
+            cout<<"Error: Images from both cameras are not of some size. Please check 
+            the size of each camera.\n";
+            exit(-1);
+        }
+        inputLeft.copyTo(copyImageLeft);
+        inputRight.copyTo(copyImageRight);
+        foundCornersInBothImage = findChessboardCornersAndDraw(inputLeft,
+        inputRight);
+        if (foundCornersInBothImage && mode == CAPTURING &&
+        stereoPairIndex<noOfStereoPairs) {
+            int64 thisTick = getTickCount();
+            int64 diff = thisTick - prevTickCount;
+            if (goIn==1 || diff >= timeGap) {
+                goIn=0;
+                saveImages(copyImageLeft, copyImageRight, ++stereoPairIndex);
+                prevTickCount = getTickCount();
+            }
+        }
+        displayImages();
+        if (mode == CALIBRATING) {
+            calibrateStereoCamera(inputLeft.size());
+            waitKey();
+        }
+        char keyBoardInput = (char)waitKey(50);
+        if (keyBoardInput == 'q' || keyBoardInput == 'Q') {
+            exit(-1);
+        }
+        else if(keyBoardInput == 'c' || keyBoardInput == 'C') {
+            mode = CAPTURING;
+        }
+        else if (keyBoardInput == 'p' || keyBoardInput == 'P') {
+            mode = CALIBRATING;
+        }
+    }
+}
+
+void calibrateFromSavedImages(string dr, string prel, string prer, string post) {
+    Size imageSize;
+    for (int i=0; i<noOfStereoPairs; i++) {
+        Mat inputLeft, inputRight, copyImageLeft, copyImageRight;
+        ostringstream imgIndex;
+        imgIndex << i+1;
+        bool foundCornersInBothImage = false;
+        string sourceLeftImagePath, sourceRightImagePath;
+        sourceLeftImagePath = dr+"/"+prel+imgIndex.str()+"."+post;
+        sourceRightImagePath = dr+"/"+prer+imgIndex.str()+"."+post;
+        inputLeft = imread(sourceLeftImagePath);
+        inputRight = imread(sourceRightImagePath);
+        imageSize = inputLeft.size();
+        if (inputLeft.empty() || inputRight.empty()) {
+            cout<<"\nCould no find image: "<<sourceLeftImagePath<<" or
+            "<<sourceRightImagePath<<". Skipping images.\n";
+            continue;
+        }
+        if ((inputLeft.rows != inputRight.rows) || (inputLeft.cols !=
+        inputRight.cols)) 
+        {
+            cout<<"\nError: Left and Right images are not of some size. Please check
+            the size of the images. Skipping Images.\n";
+            continue;
+        }
+        inputLeft.copyTo(copyImageLeft);
+        inputRight.copyTo(copyImageRight);
+        foundCornersInBothImage = findChessboardCornersAndDraw(inputLeft, inputRight);
+        if (foundCornersInBothImage && stereoPairIndex<noOfStereoPairs) {
+            saveImages(copyImageLeft, copyImageRight, ++stereoPairIndex);
+        }
+        displayImages();
+    }
+    if(stereoPairIndex > 2) {
+        calibrateStereoCamera(imageSize);
+        waitKey();
+    }
+    else {
+        cout<<"\nInsufficient stereo images to calibrate.\n";
+    }
+}
+
+int main(int argc, char** argv) {
+    help();
+    const String keys =
+    "{help| |Prints this}"
+    "{h height|7|Height of the board}"
+    "{w width|7|Width of the board}"
+    "{rt realtime|1|Clicks stereo images before calibration. Use if you do not have
+    stereo pair images saved}"
+    "{n images|40|No of stereo pair images}"
+    "{dr folder|.|Directory of images}"
+    "{prel prefixleft|image_left_|Left image name prefix. Ex: image_left_}"
+    "{prer prefixright|image_right_|Right image name postfix. Ex: image_right_}"
+    "{post postfix|jpg|Image extension. Ex: jpg,png etc}"
+    "{cam1|0|Camera 1 Index}"
+    "{cam2|2|Camera 2 Index}";
+    CommandLineParser parser(argc, argv, keys);
+    if(parser.has("help")) {
+        parser.printMessage();
+        exit(-1);
+    }
+    boardSize = Size(parser.get<int>("w"), parser.get<int>("h"));
+    noOfStereoPairs = parser.get<int>("n");
+    prefixLeft = parser.get<string>("prel");
+    prefixRight = parser.get<string>("prer");
+    postfix = parser.get<string>("post");
+    dir =parser.get<string>("dr");
+    calibType = parser.get<int>("rt");
+    namedWindow("Left Image");
+    namedWindow("Right Image");
+    switch (calibType) {
+        case 0:
+            calibrateFromSavedImages(dir, prefixLeft, prefixRight, postfix);
+            break;
+        case 1:
+            calibrateInRealTime(parser.get<int>("cam1"), parser.get<int>("cam2"));
+            break;
+        default:
+            cout<<"-rt should be 0 or 1. Ex: -rt=1\n";
+            break;
+    }
+    return 0;
+}
+
+\end{minted}
+
+\subsection{Intrinsèques.yml}
+\label{Intrinsèques.yml}
+\begin{minted}[
+        baselinestretch=1.4,
+        bgcolor=LightGray,
+        fontsize=\footnotesize]
+        {bash}
+        
+$ cat intrinsics.yml 
+%YAML:1.0
+---
+M1: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 9.8710906989142154e+02, 0., 2.8138121365893630e+02, 0.,
+       9.8710906989142154e+02, 2.3801545388613809e+02, 0., 0., 1. ]
+D1: !!opencv-matrix
+   rows: 1
+   cols: 14
+   dt: d
+   data: [ 2.0029047342300932e-02, -2.8402240995911338e-01, 0., 0., 0.,
+       0., 0., -1.3240532524068107e+00, 0., 0., 0., 0., 0., 0. ]
+M2: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 9.8710906989142154e+02, 0., 3.0918767142390823e+02, 0.,
+       9.8710906989142154e+02, 2.3417007433393971e+02, 0., 0., 1. ]
+D2: !!opencv-matrix
+   rows: 1
+   cols: 14
+   dt: d
+   data: [ -6.0534709383844081e-02, 3.5168116835394517e-02, 0., 0., 0.,
+       0., 0., -3.6174740105995693e+00, 0., 0., 0., 0., 0., 0. ]
+
+\end{minted}
+
+\subsection{Extrinsèques.yml}
+\label{Extrinsèques.yml}
+\begin{minted}[
+        baselinestretch=1.4,
+        bgcolor=LightGray,
+        fontsize=\footnotesize]
+        {bash}
+        
+$ cat extrinsics.yml 
+%YAML:1.0
+---
+R: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 9.9082334299705421e-01, -1.6339643336906441e-02,
+       -1.3417197556779314e-01, 1.3491940526615936e-03,
+       9.9381229919569458e-01, -1.1106436711554053e-01,
+       1.3515651167276421e-01, 1.0986414348180205e-01,
+       9.8471446995027956e-01 ]
+T: !!opencv-matrix
+   rows: 3
+   cols: 1
+   dt: d
+   data: [ 1.7114464211401462e-01, 4.2458825467741268e-02,
+       7.3495078172759135e-03 ]
+R1: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 9.6678982692080984e-01, 2.2782057412348117e-01,
+       -1.1582407594484888e-01, -2.3304788503951440e-01,
+       9.7188420087857208e-01, -3.3612250166102135e-02,
+       1.0491002736173502e-01, 5.9488537456107958e-02,
+       9.9270086132242941e-01 ]
+R2: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 9.6973576644706772e-01, 2.4057920334995220e-01,
+       4.1643609219427377e-02, -2.4227970373231017e-01,
+       9.6928916869865067e-01, 4.2178816992214076e-02,
+       -3.0217353171679937e-02, -5.0991708727802287e-02,
+       9.9824183302860880e-01 ]
+P1: !!opencv-matrix
+   rows: 3
+   cols: 4
+   dt: d
+   data: [ 6.7554769475498335e+02, 0., 3.3616869544982910e+02, 0., 0.,
+       6.7554769475498335e+02, 2.3718235111236572e+02, 0., 0., 0., 1.,
+       0. ]
+P2: !!opencv-matrix
+   rows: 3
+   cols: 4
+   dt: d
+   data: [ 6.7554769475498335e+02, 0., 3.3616869544982910e+02,
+       1.1922460988871862e+02, 0., 6.7554769475498335e+02,
+       2.3718235111236572e+02, 0., 0., 0., 1., 0. ]
+Q: !!opencv-matrix
+   rows: 4
+   cols: 4
+   dt: d
+   data: [ 1., 0., 0., -3.3616869544982910e+02, 0., 1., 0.,
+       -2.3718235111236572e+02, 0., 0., 0., 6.7554769475498335e+02, 0.,
+       0., -5.6661766004981962e+00, 0. ]
+
+
+\end{minted}
+
+
+\subsection{Disparité}
+\label{disparite}
+\begin{minted}[
+    baselinestretch=1.4,
+    bgcolor=lightgray,
+    fontsize=\footnotesize]
+{c++}
+/**
+ * @file SBM_Sample
+ * @brief Get a disparity map of two images
+ * @author A. Huaman
+ */
+
+#include <stdio.h>
+#include <iostream>
+#include "opencv2/calib3d/calib3d.hpp"
+#include "opencv2/core/core.hpp"
+#include "opencv2/highgui/highgui.hpp"
+
+using namespace cv;
+
+const char *windowDisparity = "Disparity";
+
+void readme();
+
+/**
+ * @function main
+ * @brief Main function
+ */
+int main( int argc, char** argv )
+{
+  if( argc != 3 )
+  { readme(); return -1; }
+
+  //-- 1. Read the images
+  Mat imgLeft = imread( argv[1], IMREAD_GRAYSCALE );
+  Mat imgRight = imread( argv[2], IMREAD_GRAYSCALE );
+  //-- And create the image in which we will save our disparities
+  Mat imgDisparity16S = Mat( imgLeft.rows, imgLeft.cols, CV_16S );
+  Mat imgDisparity8U = Mat( imgLeft.rows, imgLeft.cols, CV_8UC1 );
+
+  if( !imgLeft.data || !imgRight.data )
+  { std::cout<< " --(!) Error reading images " << std::endl; return -1; }
+
+  //-- 2. Call the constructor for StereoBM
+  int ndisparities = 112;   /**< Range of disparity */
+  int SADWindowSize = 5; /**< Size of the block window. Must be odd */
+
+  Ptr<StereoBM> sbm = StereoBM::create( ndisparities, SADWindowSize );
+
+  //-- 3. Calculate the disparity image
+  sbm->compute( imgLeft, imgRight, imgDisparity16S );
+
+  //-- Check its extreme values
+  double minVal; double maxVal;
+
+  minMaxLoc( imgDisparity16S, &minVal, &maxVal );
+
+  printf("Min disp: %f Max value: %f \n", minVal, maxVal);
+
+  //-- 4. Display it as a CV_8UC1 image
+  imgDisparity16S.convertTo( imgDisparity8U, CV_8UC1, 255/(maxVal - minVal));
+  
+  namedWindow( windowDisparity, WINDOW_NORMAL );
+  imshow( windowDisparity, imgDisparity8U );
+
+  //-- 5. Save the image
+  imwrite("SBM_sample.png", imgDisparity16S); 
+
+  waitKey(0);
+
+  return 0;
+}
+
+void readme(){ 
+    std::cout << " Usage: ./SBMSample <imgLeft> <imgRight>" 
+    << std::endl;
+}
+
+\end{minted}
+
+
+
+
+
+
+
+
+\subsection{Comparatif des caméras}
+\label{Comparatif.pdf}
+\includegraphics[width=\textwidth,page=1]{Dimensionnement/Comparatif.pdf}
+\includegraphics[width=\textwidth,page=2]{Dimensionnement/Comparatif.pdf}
+\includegraphics[width=\textwidth,page=4]{Dimensionnement/Comparatif.pdf}
+\includegraphics[width=\textwidth,page=5]{Dimensionnement/Comparatif.pdf}
+\newpage
+\label{biblio}
+\printbibliography[title={Bibliographie}]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1010,3 +1956,5 @@ $$\begin{matrix}
         X\\
     \end{bmatrix}}_{\text{Coord. 3D du point}}
 \end{matrix}$$
+
+
