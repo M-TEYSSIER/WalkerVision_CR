@@ -271,7 +271,7 @@ int main(int argc, char** argv ){
         printf("No image data \n");
         return -1; // ERREUR
     }
-    namedWindow(argv[1], WINDOW_AUTOSIZE ); // On nom une fenêtre 
+    namedWindow(argv[1], WINDOW_AUTOSIZE ); // On nomme une fenêtre 
     imshow(argv[1], image); //Affiche l'image dans la fenêtre 
     waitKey(0); // Attend une action via une touche pour quitter
     return 0;
@@ -298,10 +298,10 @@ int main(int argc, char** argv ){
 #include "opencv2/opencv.hpp"
 using namespace cv;
 int main (int argc, char **argv){
-  VideoCapture camera(atoi (argv[1])); Ouvre la caméra demandé en argument
+  VideoCapture camera(atoi (argv[1])); // Ouvre la caméra demandé en argument
   if (!camera.isOpened ()){return -1;}
       Mat image;
-      camera >> image;	//Récupère l'image depuis la caméra
+      camera >> image;	// Récupère l'image / matrice depuis la caméra
       imshow ("Webcam", image); // Affiche l'image
       waitKey (0)
   return 0;
@@ -400,12 +400,17 @@ using namespace std;
 int main (int argc, char *argv[]){
     Mat frame, frame_HSV, frame_threshold, PH;
     frame =imread(argv[1], IMREAD_COLOR);
-    PH = frame.clone ();
+    PH = frame.clone (); 
     cvtColor (frame, frame_HSV, COLOR_BGR2HSV, 0);
+    // Création d'une plage de valeurs pour identifier la peau
     inRange (frame_HSV, Scalar (1, 3, 150), Scalar (9, 147, 240),
 	       frame_threshold);
     for (int i = 0; i < PH.rows; i++){
 	    for (int j = 0; j < PH.cols; j++){
+	        // L'image apparaît en noir ou blanc à la comparaison des pixels
+	        // de l'image 'frame_threshold'. L'opération consiste à modifier
+	        // les pixels de l'image 'PH' lorsque 'frame_threshold'
+	        // a pour pixel la valeur différente de blanc.
 	        if (frame_threshold.at < unsigned char >(Point (j, i)) != 255){
 		        PH.at < Vec3b > (Point (j, i)) = Vec3b (0, 0, 0);
 		    }
@@ -455,7 +460,7 @@ void processWcam(char* videoFilename){
     if(!capture.isOpened()){exit(EXIT_FAILURE);}
     while( (char)keyboard != 'q'  && (char)keyboard != 27 ){
         if(!capture.read(frame)) {exit(EXIT_FAILURE);}
-        GaussianBlur(frame,frame,Size(5,5),0,0);
+        GaussianBlur(frame,frame,Size(5,5),0,0); // Ajout de flou
         GaussianBlur(frame,frame,Size(5,5),0,0);
         pMOG2->apply(frame, fgMaskMOG2);
         stringstream ss;
@@ -599,7 +604,7 @@ Lorsque l'on prend une photo, le capteur perçoit un point sur un plan 2D (2 dim
 
 
 
-Le schéma ci-dessous présente un plan orthonormé en 3D, avec comme axes X, Y et Z. Lorsque l'on inscrit un pixel sur une image, par exemple "m", nous avons pris la valeur du point M sur ses axes x et  car le capteur n'a pas de notion de profondeur, qui est la dimension manquante, la Z.
+Le schéma ci-dessous présente un plan orthonormé en 3D, avec comme axes X, Y et Z. Lorsque l'on inscrit un pixel sur une image, par exemple "m", nous avons pris la valeur du point M sur ses axes x et y car le capteur n'a pas de notion de profondeur, qui est la dimension manquante, la Z.
 
 \begin{center}
     \begin{tikzpicture}
@@ -699,7 +704,7 @@ $$\begin{matrix}
     
     \underbrace{\begin{bmatrix}
         \alpha f & \textit{s} & u0\\
-        0 & \beta f & v0\\
+        \textit{s} & \beta f & v0\\
         0 & 0 & 1\\
     \end{bmatrix}}_{\text{Matrice de projection}}
     
@@ -1160,18 +1165,11 @@ Voici un résultat de calcul de disparité par programmation. Le code ce trouve 
     \includegraphics[width=0.6\textwidth]{Images/Code/Disparity.png}
 \end{center}
 
+Plus le pixel est clair, plus la disparité est grande. Cela s'interprète, vu précédemment, que les pixels ne sont pas affichés au même endroit sur les images.
 
+\subsection{conclusion}
 
-
-
-% \begin{minted}[
-%         baselinestretch=1.4,
-%         bgcolor=LightGray,
-%         fontsize=\footnotesize]
-%         {c++}
-% \end{minted}
-
-
+Pour conclure cette section, grâce aux explications de mon tuteur, j'ai compris la façon dont est traité une image de façon mathématique et informatique, avec l'aide de support en plus tel que le livre de la librairie OpenCV. J'ai compris que le monde de la vision par ordinateur est un vaste domaine très intéressant et addictif. L'utilisation du langage de programmation C/C++ m'a beaucoup appris.
 
 
 
@@ -1238,33 +1236,27 @@ Via un navigateur web, j'ai pu interagir avec l'interface de la caméra:
 \textit{Vue de la caméra via interface web}\\
 \end{center}
 
-Fouille site web , trouve params réseau -> rtps:554, recup flux vlc ?
+Notre but étant de traiter les images de la caméra via un ordinateur distant, nous devons transiter ces images. Par curiosité, avant de regarder les paramètres dans le site web, j'ai scanné les ports de la caméra connecté sur le switch. 
 
+\begin{minted}[
+    baselinestretch=1.4,
+    bgcolor=lightgray,
+    fontsize=\footnotesize]
+{bash}
 
+AJOUT DU NMAP AVEC LES PORTS HTTP/HTTPS/RTSP/INCONNU(XXXXX)
 
+\end{minted}
 
+J'ai remarqué un port que je ne connaissais pas et il se trouve que c'est utilisé pour du \textit{RTSP} (Real Time Streaming Protocol - \textbf{rfc2326}). \\
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Dans un premier temps, l'objectif est de recevoir les images de la caméra sur l'ordinateur distant. Pour cela, nous allons utiliser l'outil \textit{gstreamer}.
 
 
 
 
 \newpage
-\section{Codes}
+\section{Codes annexes}
 
 \subsection{Calibration stéréo}
 \label{stereo_calib.cpp}
