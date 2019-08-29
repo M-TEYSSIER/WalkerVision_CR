@@ -1167,7 +1167,7 @@ Voici un résultat de calcul de disparité par programmation. Le code ce trouve 
 
 Plus le pixel est clair, plus la disparité est grande. Cela s'interprète, vu précédemment, que les pixels ne sont pas affichés au même endroit sur les images.
 
-\subsection{conclusion}
+\subsection{Conclusion}
 
 Pour conclure cette section, grâce aux explications de mon tuteur, j'ai compris la façon dont est traité une image de façon mathématique et informatique, avec l'aide de support en plus tel que le livre de la librairie OpenCV. J'ai compris que le monde de la vision par ordinateur est un vaste domaine très intéressant et addictif. L'utilisation du langage de programmation C/C++ m'a beaucoup appris.
 
@@ -1236,21 +1236,14 @@ Via un navigateur web, j'ai pu interagir avec l'interface de la caméra:
 \textit{Vue de la caméra via interface web}\\
 \end{center}
 
-Notre but étant de traiter les images de la caméra via un ordinateur distant, nous devons transiter ces images. Par curiosité, avant de regarder les paramètres dans le site web, j'ai scanné les ports de la caméra connecté sur le switch. 
+Notre but étant de traiter les images de la caméra via un ordinateur distant, nous devons transiter ces images. Par curiosité, avant de regarder les paramètres dans le site web, j'ai scanné les ports de la caméra connecté sur le switch. J'ai remarqué un port que je ne connaissais pas et il se trouve que c'est utilisé pour du \textit{RTSP} (Real Time Streaming Protocol - \textbf{rfc2326}). \\
 
-\begin{minted}[
-    baselinestretch=1.4,
-    bgcolor=lightgray,
-    fontsize=\footnotesize]
-{bash}
+Dans un premier temps, l'objectif est de recevoir les images de la caméra sur l'ordinateur distant. Pour cela, nous allons utiliser l'outil \textit{gstreamer}. A partir de celui-ci, pour la suite il sera possible de lire le flux vidéo.
 
-AJOUT DU NMAP AVEC LES PORTS HTTP/HTTPS/RTSP/INCONNU(XXXXX)
+\newpage
+\section{Conclusion}
 
-\end{minted}
-
-J'ai remarqué un port que je ne connaissais pas et il se trouve que c'est utilisé pour du \textit{RTSP} (Real Time Streaming Protocol - \textbf{rfc2326}). \\
-
-Dans un premier temps, l'objectif est de recevoir les images de la caméra sur l'ordinateur distant. Pour cela, nous allons utiliser l'outil \textit{gstreamer}.
+Ce stage m'a permis de me rendre compte de mes difficultés en anglais et en programmation. 
 
 
 
