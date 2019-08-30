@@ -72,9 +72,10 @@
 \title{\includegraphics[width=0.56\textwidth]{Images/IUT-Beziers.png}\\
 		\normalsize\textsc{}
 		\HRule{2pt} \\
-        \LARGE \textbf{\uppercase{Rapport de stage\\Comptage et statistiques de passants sur une place publique par analyse}}
+        \LARGE \textbf{\uppercase{Rapport de stage\\Comptage et statistiques de passants sur une place publique par analyse vidéo}}
 		\HRule{2pt} 
-		\normalsize 04 Juin 2019 - 27 Août 2019 \vspace*{3\baselineskip}
+		\normalsize 04 Juin 2019 - 27 Août 2019 \vspace*{3\baselineskip}\\
+	    \Large{\textbf{Stage réalisé à l'IUT de Béziers}}
         }
 \author{Stagiaire: Maxime TEYSSIER\\Tuteur: Sébastien DRUON\\ 
         \includegraphics[width=0.25\textwidth]{Images/UM.png}
@@ -94,13 +95,13 @@
 
 %----------------Remerciements--------------------------------------------------
 \section*{Remerciements}
-J'adresse mes remerciements aux personnes qui m'ont permis à réaliser ce stage au sein de l'IUT de Béziers.\\
+J'adresse mes remerciements aux personnes qui m'ont permis de réaliser ce stage au sein de l'IUT de Béziers.\\
 
-En premier lieu, M. Sébastien DRUON, professeur de l'Institut Universitaire de Technologie de Béziers, pour m'avoir donné l'opportunité de faire ce stage et de m'avoir accepté au sein de son équipe. Mais aussi en qualité de tuteur d'entreprise, en me guidant dans mon travail et m'aider lors de difficultés.\\
+En premier lieu, M. Sébastien DRUON, Enseignant Chercheur à l'Institut Universitaire de Technologie de Béziers, pour m'avoir donné l'opportunité de faire ce stage et de m'avoir accepté au sein de son équipe. Mais aussi en qualité de tuteur d'entreprise, en me guidant dans mon travail et m'aidant lors de difficultés.\\
 
-Je souhaite remercier M. Frédéric COMBY, professeur de l'Institut Universitaire de Technologie de Béziers, pour m'avoir aidé lors de difficultés rencontré.\\
+Je souhaite remercier M. Frédéric COMBY, Enseignant Chercheur à l'Institut Universitaire de Technologie de Béziers, pour m'avoir aidé à comprendre la vision indusrielle.\\
 
-Je tiens à remercier aussi l'équipe de l'Institut Universitaire de Technologie de Béziers, pour leur sympathie et leur gentillesse apporté durant ce stage.\\
+Je tiens à remercier aussi l'équipe de l'Institut Universitaire de Technologie de Béziers, pour leur sympathie et leur gentillesse durant ce stage.\\
 
 \newpage
 
@@ -139,12 +140,12 @@ Je tiens à remercier aussi l'équipe de l'Institut Universitaire de Technologie
         
 
     % 2/
-    \item "Le domaine de vision par ordinateur, poussé par les progrès scientifiques et technologiques récents, s’oriente vers l’analyse en temps réel des scènes comportant des sujets humains." (Source: \href{https://tel.archives-ouvertes.fr/tel-00004804/document}{https://tel.archives-ouvertes.fr/tel-00004804/document} ) %- titre / auteur: Vision par ordinateur pour l’interaction homme-machine fortement couplée - De François Bérard - Thèse) \\
+    \item "Le domaine de la vision par ordinateur, poussé par les progrès scientifiques et technologiques récents, s’oriente vers l’analyse en temps réel des scènes comportant des sujets humains." (Source: \href{https://tel.archives-ouvertes.fr/tel-00004804/document}{https://tel.archives-ouvertes.fr/tel-00004804/document} ) %- titre / auteur: Vision par ordinateur pour l’interaction homme-machine fortement couplée - De François Bérard - Thèse) \\
     \\
     \end{itemize}
         
-    Ce rapport de stage de Licence Professionnelle de Réseaux et Télécommunication porte sur le thème de la fréquentation d'une place dans la ville de Béziers. Le domaine de la vision par ordinateur nous permet d'obtenir de multiples résultats en temps réel. C'est pour cela que, pour analyser comme le demande la mission, un ordinateur recevant des images pourra en déduire les informations que nous lui demanderons. \\
-    Tout au long de ce rapport, nous allons comprend ce qu'est une image et comment la traiter. Par la suite nous allons faire des mathématiques théorique pour comprendre le fonctionnement de la vision stéréo et l'appliqué. \\
+    Ce rapport de stage de Licence Professionnelle de Réseaux et Télécommunications porte sur le thème de la fréquentation d'une place dans la ville de Béziers. Le domaine de la vision par ordinateur nous permet d'obtenir de multiples résultats en temps réel. C'est pour cela que, pour analyser le flux de piétons, un ordinateur recevant des images pourra en déduire les informations que nous lui demanderons. \\
+    Tout au long de ce rapport, nous allons comprendre ce qu'est une image et comment la traiter. Par la suite nous allons faire des mathématiques théoriques pour comprendre le fonctionnement de la vision stéréo et l'appliquer. \\
     Pour réaliser ce stage, j'ai utilisé la librairie OpenCV et j'ai programmé en langage C/C++.
 
 \newpage
@@ -153,7 +154,7 @@ Je tiens à remercier aussi l'équipe de l'Institut Universitaire de Technologie
 
 L'Institut Universitaire de Technologie de Béziers propose des formations universitaires alliant théorie et pratique qui répondent aux attentes des entreprises en termes de formation technologique. \\
 
-Depuis 2011, l’IUT de Béziers s’est installé dans ses nouveaux locaux, place du 14 juillet. Proche du centre-ville, il s’inscrit parfaitement dans la vie de ce quartier qui accueille déjà la Médiathèque André Malraux, l’antenne Du Guesclin de l’Université Paul-Valéry et le Centre interrégional de développement de l’occitan.\\
+Depuis 2011, l’IUT de Béziers s’est installé dans ses nouveaux locaux, place du 14 juillet. Proche du centre-ville, Il s’inscrit parfaitement dans la vie de ce quartier qui accueille déjà la Médiathèque André Malraux, l’antenne Du Guesclin de l’Université Paul-Valéry et le Centre interrégional de développement de l’occitan.\\
 
 \textbf{Directeur}: Philippe Pujas\\
 
@@ -168,21 +169,21 @@ Depuis 2011, l’IUT de Béziers s’est installé dans ses nouveaux locaux, pla
 \end{itemize} 
 
 
-\textbf{Contact}:\\ 3, Place du 14 juillet,\\ BP 50438,\\ 34505 Béziers cedex\\ Tél.: +33(0)4 67 11 60 00
+\textbf{Localisation}:\\ 3, Place du 14 juillet,\\ BP 50438,\\ 34505 Béziers cedex\\ Tél.: +33(0)4 67 11 60 00
 
 
 \subsection*{La mission}
     
-Le stage a pour but d'être utile pour la ville de Béziers. La mission est une solution qui créer des statistiques de passants sur une place public. \\
+Le stage a pour but d'être utile pour la ville de Béziers. La mission est d'étudier une solution  afin de réaliser des statistiques de passants sur une place publique. \\
 
-La mission est, dans un premier temps, de connaître le nombre de passants sur la place en temps réel. Les données traitées seront envoyés vers un serveur via TCP/IP ou LoRa. Seul des données transiterons. Aucune image sera transmise.\\ 
+La mission est, dans un premier temps, de connaître le nombre de passants sur la place en temps réel. Les données traitées seront envoyés vers un serveur via TCP/IP ou LoRa. Seul des données transiterons. Aucune image ne sera transmise.\\ 
 
-Dans un second temps, nous essayerons de remonter l'endroit ou ce trouve les passants sur la place et connaître leur typologie (adulte/enfant).\\
+Dans un second temps, nous essayerons de transmettre la position des passants sur la place et connaître leur typologie (adulte/enfant).\\
 
 De plus, un dimensionnement de caméra est à réaliser.
 
 
-\subsection*{Horaires}
+\subsection*{Horaires de travail:}
 
 \begin{center}
         \begin{tabular}{|l|l|l|l|l|c|r|}
@@ -207,7 +208,7 @@ De plus, un dimensionnement de caméra est à réaliser.
 \newpage
 
 \section{Traitement d'image}
-Avant de traiter une image, qu'est ce qu'une image? Une image est une matrice de valeurs. Les valeurs diffèrent de la propriété de l'image. Lorsque je vais prendre une image elle aura des valeurs qui définit les couleurs sur un espace de couleur BGR (Blue - Green - Red).\\
+Avant de traiter une image, je me suis demandé ce qu'est image. Une image est une matrice de valeurs. Les valeurs diffèrent de la propriété de l'image. Lorsque je vais prendre une image elle aura des valeurs qui définissent les couleurs dans l'espace de couleur BGR (Blue - Green - Red).\\
 
 Par exemple, cette icône:\\
 \begin{center}
@@ -237,16 +238,16 @@ A pour données:
 
 \end{minted}
 
-L'interprétation pour ce cas est que l'image est en BGR ( Blue Green Red). Donc les données affichés sont par paquets de 3 valeurs (vecteur de 3). Le premier pixel par exemple a pour valeur [1,1,255], qui vaut la couleur ROUGE.
+L'interprétation dans ce cas est que l'image est en BGR ( Blue Green Red). Donc les données affichézs sont par paquets de 3 valeurs (vecteur de 3). Le premier pixel par exemple a pour valeur [1,1,255], qui vaut la couleur ROUGE.
 
-        \subsection{Ouvrir et afficher une image}
-                Une image peut être enregistrer sur un disque sous format .jpg, .png... Dans ce cas là, une fonction nous permettra de charger l'image. Pour cela nous utiliserons "imread()". Cela dit, via une webcam nous pouvons prendre une photo et la charger. Pour cela, nous utiliserons la fonction "VideoCapture". Deux choix sont possible: utiliser une image déjà créer ou prendre une photo.
+        \subsection{Ouvrir et afficher une image avec OpenCV}
+                Une image peut être enregistrée sur un disque sous format .jpg, .png... Dans ce cas là, une fonction nous permettra de charger l'image. Pour cela nous utiliserons "imread()". Cela dit, via une webcam nous pouvons prendre une photo et la charger. Pour cela, nous utiliserons la fonction "VideoCapture". Deux choix sont possibles: utiliser une image déjà créer ou prendre une photo.
 
 
                 \subsubsection{"imread"}
-                Le fonction \textit{imread()} va nous servir pour traiter dans un premier temps une image enregistré sur le disque.
+                La fonction \textit{imread()} va nous servir pour traiter dans un premier temps une image enregistré sur le disque.
                 L'image en question est Lena ou Lenna.
-                Cette photo est un standart dans le test d'image pour deux raison selon David C. Munson, éditeur en chef lors des discussions de l'IEEE sur le traitement d'image de janvier 1996: 
+                Cette photo est un standard dans le test d'image pour deux raisons selon David C. Munson, éditeur en chef lors des discussions de l'IEEE sur le traitement d'image de janvier 1996: 
                 "Tout d'abord, cette image contient un mélange intéressant de détails, de régions uniformes, et de textures, ce qui permet de bien tester les différents algorithmes de traitement d'image. C'est une bonne image de test ! Ensuite, « Lenna » est l'image d'une femme attirante. Ce n'est pas une surprise que la communauté de la recherche dans le traitement d'image (principalement masculine) gravite autour d'une image qu'elle trouve attirante." 
                 \begin{center}
                         \includegraphics[width=0.4\textwidth]{Images/Lenna.png}\\
@@ -288,7 +289,7 @@ int main(int argc, char** argv ){
                 \end{center}
 
                 \subsubsection{"VideoCapture"}
-                La fonction \textit{VideoCapture} nous permet de prendre une instantanée via une caméra.
+                La fonction \textit{VideoCapture} nous permet de prendre un instantane via une caméra.
                 \begin{minted}[
                     baselinestretch=1.4,
                     bgcolor=LightGray,
@@ -308,7 +309,7 @@ int main (int argc, char **argv){
 }
                \end{minted}
                \begin{center}
-                   \textit{Prise d'instantanée depuis caméra et affichage}
+                   \textit{Prise d'instantané depuis la caméra et affichage}
                \end{center}
 
                 Résultat après compilation et exécution: 
@@ -318,8 +319,8 @@ int main (int argc, char **argv){
                \end{center} 
                 
 
-        \subsection{Changement d'espace de couleur}
-            Le changement d'espace de couleur permet de voir différemment la même image et ainsi la traiter avec plus d'efficacité. Voici deux espace de couleur différente à BGR, les différentes luminances de gris et les teintes-saturation-valeur (HSV).
+        \subsection{Changement d'espace couleur}
+            Le changement d'espace de couleur permet de voir différemment la même image et ainsi la traiter avec plus d'efficacité. Voici deux espaces de couleur différents de BGR, les différentes luminances de gris et les teintes-saturation-valeur (HSV).
             Pour effectuer ce changement, l'utilisation de la fonction \textit{cvtColor()} sera utile.
                 \subsubsection{BGR2GRAY}
                 Voici un code qui permet de passer de l'espace de couleur BGR en celui de gris: 
@@ -351,13 +352,13 @@ int main(int argc, char ** argv){
                 
                 \begin{center}
                 \includegraphics[width=0.8\textwidth]{Images/ImgBGR2GRAY.png}\\
-                \textit{Résultat 3 - Affichage image normal et teinte de gris}
+                \textit{Résultat 3 - Affichage image d'origine et teintes de gris}
                 \end{center}
 
 
                 \subsubsection{BGR2HSV}
-                Pour notre mission de compter des passants, nous avons besoin de reconnaître un humain d'un arbre ou bâtiment. Dans l'espace de couleur HSV (Hue, Saturation, Value) à la différence d'autres espaces de couleurs, tout les humains ont la même teinte (Hue).
-                Pour changer l'espace BGR en HSV, le code est le quasi le même que précédent sauf un paramètre dans \textit{cvtColor}:\\
+                Pour notre mission de compter des passants, nous avons besoin de différencier un humain d'un arbre ou bâtiment. Dans l'espace de couleur HSV (Hue, Saturation, Value) à la différence d'autres espaces de couleurs, tous les humains ont la même teinte (Hue).
+                Pour changer l'espace BGR en HSV, le code est quasi le même que précédent sauf un paramètre dans \textit{cvtColor}:\\
                 
                 \begin{minted}[
                  baselinestretch=1.4,
@@ -428,14 +429,14 @@ int main (int argc, char *argv[]){
         \textit{Capture de la peau humaine avec des parasites}
     \end{center}
 
-    Le traitement ne permet pas d'avoir un résultat parfait. Pour améliorer le filtre, l'utilisation de dilatation et érosion de pixel est une méthode possible.\\
+    Le traitement ne permet pas d'avoir un résultat parfait. Pour améliorer le filtre, l'utilisation de dilatation et érosion d'image est une méthode possible.\\
     
     \subsection{Suppression de fond}
     \subsubsection{MOG2}
     
-    Sur l'étape précédente, le résultat nous affiche le fond d'une image alors que le résultat devrait être juste la peau humaine. Cela dit, si la couleur est dans la même tranche de valeur accepté que celle demandé l'objet va apparaître sur l'image. 
-    Pour y remédier, la suppression de fond est nécessaire. Pour la réalisation, l'utilisation d'une vidéo est exigé car le programme ci-dessous, permet de supprimer tout ce qui ne bouge pas, soit le fond. 
-    
+    Sur l'étape précédente, le résultat nous affiche le fond d'une image alors que le résultat devrait être juste la peau humaine. Cela dit, si la couleur est dans la même tranche de valeur que celle demandée l'objet va apparaître sur l'image. 
+    Pour y remédier, la suppression de fond est nécessaire. Pour la réalisation, l'utilisation d'une vidéo est exigé car le programme ci-dessous, permet de supprimer tout ce qui ne bouge pas (soit le fond). 
+     
     \begin{minted}[
     baselinestretch=1.4,
     bgcolor=lightgray,
@@ -492,10 +493,10 @@ int main(int argc, char* argv[]){
         \textit{Suppression du fond lors d'un mouvement}\\
     \end{center}    
     
-    Via ce programme, le résultat est donné sur un seuil (threshold). Si les valeurs exactes des pixels ne sont pas affiché cela devient un problème pour la suite. C'est à dire, nous avons un résultat en noir et blanc. nous ne pourrons pas traiter la couleur avec ce résultat.
+    Via ce programme, le résultat est donné sur un seuil (threshold). Si les valeurs exactes des pixels ne sont pas affichées cela devient un problème pour la suite. C'est à dire, nous avons un résultat en noir et blanc: nous ne pourrons pas traiter la couleur avec ce résultat.
     
     \subsubsection{Pixel par pixel}
-    Pour avoir un maximum de détail, le résultat doit ressortir les couleurs. Donc, le programme suivant va afficher les pixels réel au lieu de pixel blanc sur l'ancien programme.
+    Pour avoir un maximum de détails, le résultat doit faire ressortir les couleurs. Donc, le programme suivant va afficher les pixels réels au lieu des pixel blanc de l'ancien programme.
     
     \begin{minted}[
     baselinestretch=1.4,
@@ -586,17 +587,17 @@ int main(int argc, char **argv){
     
     \begin{center}
         \includegraphics[width=0.8\textwidth]{Images/BGSub/BGSubWithColor.png}\\
-        \textit{Suppression du fond et affichage de la couleur original des pixels}
+        \textit{Suppression du fond et affichage de la couleur originale des pixels}
     \end{center}
     \subsection{Conclusion}
     
-    Cette partie a permis de voir ce qu'est une image en informatique, une matrice. De celle ci, on a pu l'afficher dans une fenêtre en tant qu'image et on a pu afficher une succession d'image, une vidéo. De plus, le fait d'analyser et pouvoir traiter ses données de chaque image, donne accès à modifier ses valeurs. Ainsi, changer l'espace de couleur de BGR en HSV est devenu possible pour nous. De ce fait, la création de filtre pour accepter qu'un intervalle de valeurs pour identifier la peau humaine devient possible. Dans le même cas, la suppression du fond par analyse de pixel est créé. 
+    Cette partie a permis de voir ce qu'est une image en informatique: une matrice. On a pu l'afficher dans une fenêtre en tant qu'image et on a pu afficher une succession d'image, une vidéo. De plus, le fait d'analyser et pouvoir traiter les données de chaque image, permet de  modifier ses valeurs. Ainsi, changer l'espace de couleur de BGR en HSV est devenu possible pour nous. De ce fait, la création de filtre pour accepter qu'un intervalle de valeurs pour identifier la peau humaine devient possible. Dans le même cas, la suppression du fond par analyse de pixel est créée. 
     \newpage
 %%%%%%%%%%%%%%%%%%%%%%%% CAMERA %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Caméra}
 \subsection{Calibration - théorie}
 \subsubsection{Vision}
-Lorsque l'on prend une photo, le capteur perçoit un point sur un plan 2D (2 dimension).\\
+Lorsque l'on prend une photo, le capteur perçoit un point sur un plan 2D (2 dimensions).\\
 
 \begin{center}
     \includegraphics[width=0.8\textwidth]{Images/Vision/Projection2D.png}
@@ -630,7 +631,7 @@ Le schéma ci-dessous présente un plan orthonormé en 3D, avec comme axes X, Y 
     \end{tikzpicture}
 \end{center}
 
-Le point \textbf{M} à pour valeur x,y,z. Que l'on écrit: $$\textbf{M}\begin{bmatrix}x\\y\\z\end{bmatrix}$$
+Le point \textbf{M} à pour coordonnées x,y,z. Que l'on écrit: $$\textbf{M}\begin{bmatrix}x\\y\\z\end{bmatrix}$$
 
 Sur un plan en 2D (Hauteur[Y]/Profondeur[Z]), nous avons:\\
 
@@ -661,11 +662,11 @@ Sur un plan en 2D (Hauteur[Y]/Profondeur[Z]), nous avons:\\
 \end{center}
 Ce point de vue nous permet d'appliquer le théorème de Thalès pour récupérer des informations. Nous pouvons effectuer : $\frac{v}{y}$ = $\frac{f}{z}$ \\
 
-Ainsi on peut en déduire de : $v=\frac{fY}{z}$ et $u=\frac{fX}{Z}$
+Ainsi on peut en déduire de : $v=\frac{fY}{z}$ et $u=\frac{fX}{z}$
 
 \subsubsection{Erreur de centrage}
 
-Nous pouvons écrire la matrice: 
+Nous pouvons écrire le système: 
 $$\left\{ 
     \begin{array}{ll}
         v=\frac{fY}{Z}+V0  \\ \\
@@ -673,7 +674,7 @@ $$\left\{
     \end{array} \\
 \right. $$ \\
 
-Que l'on peut écrire: 
+Que l'on peut mettre sous la forme: 
 $$\left\{ 
     \begin{array}{ll}
         v=\frac{fY+V0Z}{Z} \\ \\
@@ -681,7 +682,7 @@ $$\left\{
     \end{array} \\
 \right. $$
 
-La préférence de coordonnée homogène nous fait écrire le système:
+La préférence de coordonnées homogènes nous fait écrire le système:
 $$\left\{ 
     \begin{array}{ll}
         v'=fY+U0\\ \\
@@ -693,7 +694,7 @@ $$\left\{
 Avec ces nouvelles forme d'écriture nous écrivons: $u=\frac{u'}{w'}$ et $v=\frac{v'}{w'}$
 
 \subsubsection{Matrice de projection}
-Ainsi la matrice s'écrit:
+Ainsi la projection s'écrit:
 $$\begin{matrix}
     
     \underbrace{\begin{bmatrix}
@@ -747,7 +748,7 @@ Il faut passer sous un modèle 3D:
  
 Avoir une deuxième point de vue nous permet de définir \textbf{w}.
  
- \subsubsection{Changement de repères}
+ \subsubsection{Changement de repère}
  
  \begin{center}
     \begin{tikzpicture}
@@ -787,7 +788,7 @@ $$ \begin{matrix}
     
     \underbrace{\begin{pmatrix}
         X\\Y\\Z\\1\\
-    \end{pmatrix}_{\text{R0}}}_{Sur le plan 0}
+    \end{pmatrix}_{\text{R0}}}_{Sur le repère 0}
     
 \end{matrix}$$\\
 
@@ -832,7 +833,7 @@ Est la matrice de rotation. Et: \\
 Est la matrice de translation.
 
 \subsubsection{Vision stéréo}
-Le principe de la Vision stéréo est de pouvoir retrouver la position d'un objet sur un espace 3D via plusieurs vues de lui même.
+Le principe de la Vision stéréo est de pouvoir retrouver la position d'un objet sur un espace 3D via plusieurs vues de celui-ci.
  \begin{center}
     \begin{tikzpicture}
         \path(0,-0.7) node{Caméra0};
@@ -862,7 +863,7 @@ Le principe de la Vision stéréo est de pouvoir retrouver la position d'un obje
      \end{tikzpicture}
 \end{center}
 
-On peu en déduire que: \\
+On peux en déduire que: \\
 
 Camera 0: $$\begin{bmatrix}U\\V\\W\\ \end{bmatrix} 
 =
@@ -885,7 +886,7 @@ Camera 1: $$\begin{bmatrix}U'\\V'\\W'\\ \end{bmatrix}
 \begin{bmatrix}
     X\\Y\\Z
 \end{bmatrix}_{\text{\tiny{1}}}$$\\
-On va définir Caméra 1 sur le plan 0.
+On va définir Caméra 1 par rapport au repère 0.
 
 $$\text{Camera 1=}\begin{bmatrix}
     f' & 0 & u0'\\
@@ -967,8 +968,8 @@ La géométrie épipôlaire permet d'établir une relation géométrique entre d
 
 % URL https://slideplayer.fr/slide/1304090/
 \begin{itemize}
-    \item[$\bullet$] Un épipôle est le centre de projection d'une caméra vue dans le plan image de l'autre caméra. Seul une droite épipolaire passe par chaque point des images (sauf aux épipôles)
-    \item[$\bullet$] Une droite épipolaire est formé par l'épipôle et une point de l'image (multitude de droites épipôlaires par image)
+    \item[$\bullet$] Un épipôle est le centre de projection d'une caméra vue dans le plan image de l'autre caméra. Seule une droite épipolaire passe par chaque point des images (sauf aux épipôles)
+    \item[$\bullet$] Une droite épipolaire est formé par l'épipôle et un point de l'image (multitude de droites épipôlaires par image)
 \end{itemize}
 
 Donc: \\
@@ -981,7 +982,7 @@ Donc: \\
 
 \subsubsection{Calibrage d'une caméra}
 
-En tenant compte des dimensions du pixel nous avons 2 facteur qui s'insèrent dans la matrice: \textbf{$\alpha$} et \textbf{$\beta$}.\\
+En tenant compte des dimensions du pixel nous avons 2 facteurs qui s'insèrent dans la matrice: \textbf{$\alpha$} et \textbf{$\beta$}.\\
 
 \begin{center}
     $\begin{matrix}
@@ -1023,7 +1024,7 @@ $$\left\{
 \right. $$
 
 
-Pour un point, on pourra sortir la focal (\textit{f}) avec les données des points (\textit{Uo} et \textit{Vo}) :
+Pour un point, on pourra éstimer la focal (\textit{f}) avec les données des points (\textit{Uo} et \textit{Vo}) :
 
 $$\left\{ 
     \begin{array}{ll}
@@ -1034,17 +1035,17 @@ $$\left\{
 
 \subsubsection{Calcul de distance}
 
-Avec les données que l'on récupère grâce à la matrice précédente, la distance ce calcule en utilisant les coordonnées d'un point sur l'image qui représente la vue de gauche et un point sur l'image droite. Avec, nous récupérons  [\textit{X Y Z}] des points et nous appliquons cette formule pour connaître la distance entre ces deux points:\\
+Avec les données que l'on récupère grâce à la matrice précédente, la distance se calcule en utilisant les coordonnées d'un point sur l'image qui représente la vue de gauche et un point sur l'image droite. Avec, nous récupérons  [\textit{X Y Z}] des points et nous appliquons cette formule pour connaître la distance entre ces deux points:\\
 
 \hspace{4cm} d=\sqrt{(X2-X1)^2+(Y2-Y1)^2+(Z2-Z1)^2}
 
 \subsubsection{Registration - Mise en correspondance}
 
-Cette pratique permet de trouver où ce trouve un point d'une image sur une autre image, par méthode de recherche par voisinage. C'est à dire, lorsque le point est définit nous allons prendre son voisinage pour retrouver un plus gros endroit sur l'autre image.
+Cette pratique permet de trouver où ce trouve un point d'une image sur une autre image, par méthode de recherche par voisinage. C'est à dire, lorsque le point est défini nous allons prendre son voisinage pour retrouver son homologue sur l'autre image.
 
 \begin{center}
     \includegraphics[width=\textwidth]{Images/Vision/Registration.PNG}\\
-    \textit{Exemple de registration}\\
+    \textit{Exemple de mise en correspondance}\\
 \end{center}
 
 Sur l'image ci-dessus, la mise en correspondance des yeux sur l'image de gauche à comme valeur ajouter les pixels dans les rectangles bleu. Ainsi la recherche sera plus fructueuse et permettra d'identifier automatiquement les pixels en commun.\\
@@ -1058,7 +1059,7 @@ Dès lors, le calcul de distance peut s'automatiser, par exemple en calculant av
 
 Pour calibrer deux caméra, j'ai utilisé dans un premier temps la webcam de mon ordinateur portable (résolution: 640x480) et une caméra externe Logitech C550 (résolution réduite pour l'exercice: 640x480).\\
 
-Pour le placement des caméras, j'ai du me baser par rapport à la webcam et donc placer la caméra externe à hauteur (quasi) équivalent et à environ 20cm horizontalement, pour ameriorer la calibration.\\
+Pour le placement des caméras, j'ai du me baser par rapport à la webcam et donc placer la caméra externe à hauteur (quasi) équivalente et à environ 20cm horizontalement, pour améliorer la calibration.\\
 
 Voici un schéma du montage:
 
@@ -1069,11 +1070,11 @@ Voici un schéma du montage:
 
 \subsubsection{Calibration des caméras}
 
-Grâce au bouquin \textit{Learning OpenCV: Computer Vision with the OpenCV Library by Gary Bradski and Adrian Kaehler}, le site web d'OpenCV et leur github, j'ai pu trouver explications et des programmes pour réaliser la calibration.\\
+Grâce au livre \textit{Learning OpenCV: Computer Vision with the OpenCV Library by Gary Bradski and Adrian Kaehler}, le site web d'OpenCV et leur github, j'ai pu trouver des explications et des programmes pour réaliser la calibration.\\
 
-Le programme de calibration stéréo se trouve section \ref{stereo_calib.cpp}, nous permet de générer les paramètres intrinsèques et extrinsèques.  \\
+Le programme de calibration stéréo qui se trouve section \ref{stereo_calib.cpp}, nous permet de calculer les paramètres intrinsèques et extrinsèques.  \\
 
-Pour exécuter ce programme, je dois le compiler. Pour cela, j'ai utilisé un CMakeList.txt (permet d'exécuter un ensemble d'action). J'ai trouvé cette utilisation plus agréable que la commande g++... (qui est très longue).
+Pour exécuter ce programme, je dois le compiler. Pour cela, j'ai utilisé un CMakeList.txt (permet d'exécuter un ensemble d'actions). J'ai trouvé cette utilisation plus agréable que la commande g++... (qui est très longue).
 
 Le CMakeList.txt est composé de:
 
@@ -1109,7 +1110,7 @@ $ make
 
 \end{minted}
 
-J'ai accès à mon programme, que je lance avec argument la largeur de mon plateau d'échec et sa hauteur (8x6) ainsi que le nombre d'instantanée que je souhaite (15).
+J'ai accès à mon programme, que je lance avec argument la largeur de mon plateau d'échec et sa hauteur (8x6) ainsi que le nombre d'instantanés que je souhaite (15).
 
 \begin{minted}[
         baselinestretch=1.4,
@@ -1119,16 +1120,16 @@ J'ai accès à mon programme, que je lance avec argument la largeur de mon plate
 ./stereo_calib -h=6 -w=8 -n=15
 \end{minted}
 
-Dans un premier temps, le programme va détecter les chessboard (plateau d'échec) pour nous afficher que tout marche. Si rien n'est affiché c'est que nous avons mal renseigner les arguments. \\
+Dans un premier temps, le programme va détecter les chessboards (plateau d'échec) pour nous afficher que tout marche. Si rien n'est affiché c'est que nous avons mal renseigner les arguments. \\
 
 \begin{center}
     \includegraphics[width=\textwidth]{Images/Code/PhaseDetect.png}\\
     \textit{Phase de détection}
 \end{center}
 
-Tout ce passe bien, nous remarquons qu'il détecte bien notre chessboard. Pour afficher ce résultat sur l'image, le programme rentre dans la fonction \textit{calibrateFromeSavedImages()} et utilise une autre fonction: \textit{findChessboardCornersAndDraw()}. Cette dernière fonction à besoin de l'image de gauche et l'image de droite et va les traités séparément. Pour l'instant aucun stéréo n'est imaginé. La fonction \textit{findChessboardCornersAndDraw()} va modifier l'espace de couleur des images pour en venir en niveau de gris. Puis utilise la fonction \textit{findChessboardCorners()} qui va lire l'image pour trouver la position intérieur des coins du chessboard et afficher des ronds liés avec la fonction \textit{drawChessboardCorners()}. Dès lors, les images sont affichés à l'écran.\\
+Tout se passe bien, nous remarquons qu'il détecte bien notre chessboard. Pour afficher ce résultat sur l'image, le programme rentre dans la fonction \textit{calibrateFromeSavedImages()} et utilise une autre fonction: \textit{findChessboardCornersAndDraw()}. Cette dernière fonction a besoin de l'image de gauche et l'image de droite et va les traiter séparément. Pour l'instant aucune stéréo n'est imaginée. La fonction \textit{findChessboardCornersAndDraw()} va modifier l'espace de couleur des images pour aux venir en niveau de gris. Puis utilise la fonction \textit{findChessboardCorners()} qui va lire l'image pour trouver la position intérieure des coins du chessboard et afficher des ronds liés avec la fonction \textit{drawChessboardCorners()}. Dès lors, les images sont affichées à l'écran.\\
 
-A la fin de chaque traitement d'images, ces images (en espace de couleur gris), sont enregistré dans le répertoire courant (car vous n'avons pas indiqué de chemin autre).\\
+A la fin de chaque traitement d'images, ces images (en espace de couleur gris), sont enregistrées dans le répertoire courant (car vous n'avons pas indiqué de chemin autre).\\
 
 Le programme va prendre des photos lorsque le chessboard est bien détecté pour pouvoir appliquer les fonctions. Si le chessboard n'est pas reconnu, le programme laisse tourner le flux vidéo.\\
 
@@ -1137,9 +1138,9 @@ Le programme va prendre des photos lorsque le chessboard est bien détecté pour
     \textit{Phase de capture de photo avec chessboard}
 \end{center}
 
-Le suite du programme traite la calibration stéréo via la fonction \textit{calibrateStereoCamera()}. Cette fonction débute par l'apprentissage de pixel. Celle-ci initialise un vecteur de vecteur à 3 floats qui va recevoir chaque valeurs de pixel. \newline
-Ensuite, l'utilisation des fonctions \textit{stereoCalibrate()} permet d'obtenir les paramètres intrinsèques et extrinsèques. Ultérieurement, le programme créer un fichier pour chaque paramètres est inscrit les données dedans, tel que les matrices de caméra, matrice de rotation, translation...
-Le résultat des paramètres intrinsèques ce trouve page \pageref{Intrinsèques.yml}. Le résultat des paramètres extrinsèque ce trouve page \pageref{Extrinsèques.yml}. \newline
+La suite du programme traite la calibration stéréo via la fonction \textit{calibrateStereoCamera()}. Cette fonction débute par l'apprentissage de pixels. Celle-ci initialise un vecteur de vecteur à 3 floats qui va recevoir chaque valeur de pixel. \newline
+Ensuite, l'utilisation des fonctions \textit{stereoCalibrate()} permet d'obtenir les paramètres intrinsèques et extrinsèques. Ultérieurement, le programme créer un fichier pour chaque paramètres et inscrit les données dedans (les matrices de caméra, matrice de rotation, translation...).
+Le résultat des paramètres intrinsèques se trouve page \pageref{Intrinsèques.yml}. Le résultat des paramètres extrinsèques se trouve page \pageref{Extrinsèques.yml}. \newline
 Par la suite, l'exécution de la fonction \textit{stereoRectify()}, \textit{initUndistortRectifyMap()}  permet de faire une géométrie épipôlaire.
 
 \begin{center}
@@ -1147,36 +1148,36 @@ Par la suite, l'exécution de la fonction \textit{stereoRectify()}, \textit{init
     \textit{Rectification des images avec géométrie épipolaire}\\
     \end{center}
     
-    Le programme permet aussi de faire du temps différé. C'est à dire, nous donnons au programme l'emplacement de(s) image(s) déjà enregistré, le programme les charges et les traites comme précédemment.
+    Le programme permet aussi de faire du temps différé. C'est à dire, nous donnons au programme l'emplacement de(s) image(s) déjà enregistré,es le programme les charge et les traite comme précédemment.
 
 \subsection{Disparité}
 
-La disparité est une information importante car elle nous donner la distance entre le point d'une image et le même point sur une autre image. Voici l'explication en image:
+La disparité est une information importante car elle nous donne la distance entre le point d'une image et le même point sur une autre image. Voici l'explication en image:
 
 \begin{center}
     \includegraphics[width=0.8\textwidth]{Images/Binocular-stereo-vision.png}\\
     Voir bibliographie page  \pageref{biblio} - \cite{article}
 \end{center}
 
-Sur l'image de droite, l'objet n'a pas le même emplacement que sur l'image de gauche car la vue n'est pas sur la même coordonnée horizontal. Cela dit, l'objet ce trouve sur la même ligne épipolaire.\\
+Sur l'image de droite, l'objet n'a pas le même emplacement que sur l'image de gauche car la vue n'est pas sur la même coordonnée horizontale. Cela dit, l'objet se trouve sur la même ligne épipolaire.\\
 
-Voici un résultat de calcul de disparité par programmation. Le code ce trouve page \pageref{disparite}
+Voici un résultat de calcul de disparité par programmation. Le code se trouve page \pageref{disparite}
 \begin{center}
     \includegraphics[width=0.6\textwidth]{Images/Code/Disparity.png}
 \end{center}
 
-Plus le pixel est clair, plus la disparité est grande. Cela s'interprète, vu précédemment, que les pixels ne sont pas affichés au même endroit sur les images.
+Plus le pixel est clair, plus la disparité est grande. Cela s'interprète, comme vu précédemment, par le fait que les pixels ne sont pas affichés au même endroit sur les images.
 
 \subsection{Conclusion}
 
-Pour conclure cette section, grâce aux explications de mon tuteur, j'ai compris la façon dont est traité une image de façon mathématique et informatique, avec l'aide de support en plus tel que le livre de la librairie OpenCV. J'ai compris que le monde de la vision par ordinateur est un vaste domaine très intéressant et addictif. L'utilisation du langage de programmation C/C++ m'a beaucoup appris.
+Pour conclure cette section, grâce aux explications de mon tuteur, j'ai compris la façon dont est traitée une image de façon mathématique et informatique. Avec l'aide de supports en plus tels que le livre de la librairie OpenCV, j'ai compris que le monde de la vision par ordinateur est un vaste domaine très intéressant et addictif. L'utilisation du langage de programmation C/C++ m'a beaucoup appris.
 
 
 
 \newpage
 \section{Dimensionnement des caméras}
 
-Dans le cadre du projet, j'ai dû faire un dimensionnement de caméras. Ces caméras sont celle qui seront installer sur la place de Béziers.\\
+Dans le cadre du projet, j'ai dû faire un dimensionnement de caméras. Ces caméras sont celles qui seront installées sur la place de Béziers.\\
 
 Les caméras doivent répondre à plusieurs problématiques:
 \begin{itemize}
@@ -1192,11 +1193,11 @@ Les caméras doivent répondre à plusieurs problématiques:
     \end{itemize}
 \end{itemize}
 
-La commande à pour contrainte d'être acheté via le site web: \href{eneo-security.com}{eneo-security.com}\newline
+La commande à pour contrainte d'être effectuée via le site web: \href{eneo-security.com}{eneo-security.com}\newline
 
-Avec les problématique, ce fournisseur offres de bonnes solutions. Par la suite, j'ai dû faire un choix et donc un comparatif des offres pour ne pas avoir de caméras trop puissantes pour notre utilité ou inversement.  (Voir comparatif des caméras page: \pageref{Comparatif.pdf})
+Ce fournisseur offres de bonnes solutions. Par la suite, j'ai dû faire un choix et donc un comparatif des offres pour ne pas avoir de caméras trop puissantes pour notre utilité ou inversement.  (Voir comparatif des caméras page: \pageref{Comparatif.pdf})
 
-Via ce document, j'ai pu remarquer que des caméras n'avaient pas de protection anti-vandalisme. Donc nous pouvons directement sélectionner réduire le choix à (en référence): \begin{itemize}
+Via ce document, j'ai pu remarquer que des caméras n'avaient pas de protection anti-vandalisme. Donc nous pouvons directement sélectionner réduire le choix aux modèles suivants (en référence): \begin{itemize}
     \item[$\bullet$] 220149
     \item[$\bullet$] 220083
     \item[$\bullet$] 219808
@@ -1205,7 +1206,7 @@ Via ce document, j'ai pu remarquer que des caméras n'avaient pas de protection 
     \item[$\bullet$] 214557\\
 \end{itemize}
 
-Après analyse, la caméra (ref: 216602) propose  une qualité d'image, un flux de streaming, un capteur, sensibilité à la lumière, une MOD, angle d'image, focale dès plus compatible avec notre application. De plus, l'alimentation en plus de Ethernet (POE) est disponible. De ce fait, nous devons acheter un switch en plus qui fourni du POE. Notre besoin pour le switch est d'alimenter deux caméras, pas besoin de prendre un switch 24/48 ports.
+Après analyse, la caméra (ref: 216602) propose  une qualité d'image, un flux de streaming, un capteur, sensibilité à la lumière, une MOD, angle d'image, focale dès plus compatible avec notre application. De plus, l'alimentation par de Ethernet (POE) est disponible. De ce fait, nous devons acheter un switch en plus qui fourni du POE. Notre besoin pour le switch est d'alimenter deux caméras, pas besoin de prendre un switch 24/48 ports.
 
 \begin{center}
     \includegraphics[width=0.4\textwidth]{Dimensionnement/SWPOE.jpg}\\
@@ -1222,9 +1223,8 @@ Après analyse, la caméra (ref: 216602) propose  une qualité d'image, un flux 
     \item[\bullet] Le mode CCTV permet une transmission jusqu'à 250m @ 10Mbps
     \item[\bullet] Gamme de température : -10°C à +45°C
     \item[\bullet] Alimentation 60W contenu dans la livraison
-    \item[\bullet] Power supply included\\ 
 \end{itemize}
-Dès la réception et lecture de la documentation, nous avons installer avec mon tuteur le matériel pour le tester avant la mise en place.
+Dès la réception et lecture de la documentation, nous avons installé avec mon tuteur le matériel pour le tester avant la mise en place.
 \begin{center}
     \includegraphics[width=0.6\textwidth]{Dimensionnement/camsw.png}\\
     \textit{Installation caméra/switch}\\
@@ -1236,22 +1236,24 @@ Via un navigateur web, j'ai pu interagir avec l'interface de la caméra:
 \textit{Vue de la caméra via interface web}\\
 \end{center}
 
-Notre but étant de traiter les images de la caméra via un ordinateur distant, nous devons transiter ces images. Par curiosité, avant de regarder les paramètres dans le site web, j'ai scanné les ports de la caméra connecté sur le switch. J'ai remarqué un port que je ne connaissais pas et il se trouve que c'est utilisé pour du \textit{RTSP} (Real Time Streaming Protocol - \textbf{rfc2326}). \\
+Notre but étant de traiter les images de la caméra via un ordinateur distant, nous devons transmettre ces images. Par curiosité, avant de regarder les paramètres dans le site web, j'ai scanné les ports de la caméra connecté sur le switch. J'ai remarqué un port que je ne connaissais pas et il se trouve que c'est utilisé pour du \textit{RTSP} (Real Time Streaming Protocol - \textbf{rfc2326}). \\
 
 Dans un premier temps, l'objectif est de recevoir les images de la caméra sur l'ordinateur distant. Pour cela, nous allons utiliser l'outil \textit{gstreamer}. A partir de celui-ci, pour la suite il sera possible de lire le flux vidéo.
 
 \newpage
 \section{Conclusion du stage}
 
-Ce stage m'a permis de me rendre compte de mes difficultés en anglais, en programmation et le manque de travail de mes connaissances en mathématiques. Le tuteur d'entreprise a su me guider pour que je réussisse.\\
+Ce stage m'a permis de me rendre compte de mes difficultés en anglais, en programmation et de mon manque de connaissances en mathématiques. Le tuteur d'entreprise a cependant su me guider pour que je réussisse.\\
 
-De plus, j'ai découvert un nouveau monde dans l'informatique. Très intéressant. Qui me donne envie de continuer à m'exercer dessus. J'aurais aimé continuer et finaliser la mission. Je compte continuer de mon côté.\\
+De plus, j'ai découvert un nouveau monde dans l'informatique, très intéressant. Qui me donne envie de continuer à m'exercer dessus. J'aurais aimé continuer et finaliser la mission et compte continuer de mon côté.\\
 
-Pour finir, c'était une très bonne expérience, très enrichissante. La recherche sur le net, dans les livres, les publications, questions au tuteur et aux enseignants chercheurs présent sur les lieux du stage m'ont permis d'apprendre beaucoup de la communauté du traitement de la vision par ordinateur ainsi que d'apprendre sur le domaine.
+Pour finir, c'était une très bonne expérience, très enrichissante. La recherche sur le net, dans les livres, les publications, les questions au tuteur et aux enseignants chercheurs présents sur les lieux du stage m'ont permis d'apprendre beaucoup de la communauté du traitement de la vision par ordinateur.
+
+Pendant ce stage, j'ai également pris confiance en mes compétences, me rendant compte que j'étais capable, avec le temps nécessaire, d'aborder une problématique nouvelle pour moi et de réussir. 
 
 
 \newpage
-\section{Codes annexes}
+\section{Annexes}
 
 \subsection{Calibration stéréo}
 \label{stereo_calib.cpp}
